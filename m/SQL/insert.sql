@@ -1,0 +1,17 @@
+INSERT INTO tb_categorias VALUES(NEXT VALUE FOR sq_categorias,'RECEITAS FIXAS',NULL);
+INSERT INTO tb_categorias VALUES(NEXT VALUE FOR sq_categorias,'DESPESAS FIXAS',NULL);
+
+INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,1 ,'SALARIO','R');
+INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,1,'VALE','R');
+INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,2,'LUZ','D');
+INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,2,'NET','D');
+INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,2,'IPTU','D');
+
+INSERT INTO tb_grupos VALUES(NEXT VALUE FOR sq_grupos,'ITAU CC');
+INSERT INTO tb_grupos VALUES(NEXT VALUE FOR sq_grupos,'ITAU 7362');
+
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,1,1,1000,'26.10.2016',NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,1,2,2000,'26.10.2016',NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,1,3,80,'26.10.2016',NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,1,4,180,'26.10.2016',NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,1,5,144,'26.10.2016',NULL);

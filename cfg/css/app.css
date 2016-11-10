@@ -1,0 +1,17 @@
+#resumoMensal{		
+	width: auto;	
+}
+
+.vencimento{
+	width: 1px;
+}
+.conta{
+	width: 1px;
+}
+.valor{
+	text-align: right;	
+	width: 1px;
+}
+.tipo{
+	width: 1px;
+}

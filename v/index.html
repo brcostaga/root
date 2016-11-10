@@ -1,0 +1,21 @@
+<html ng-app='orcamentoApp'>
+<!--http://localhost/orcamento/v/index.html-->
+	<head >
+		<meta charset='UTF-8'>
+<!-- L I B R A R I E S	-->
+		<link rel='stylesheet' href='../lib/css/bootstrap.min.css'>
+		<script src='../lib/js/jquery-3.1.1.min.js'></script>
+		<script src='../lib/js/angular.js'></script>
+		<script src='../lib/js/angular-route.min.js'></script>
+		<script src='../lib/js/angular-locale_pt-br.js'></script>
+<!-- C O N F I G	-->
+		<link rel='stylesheet' href='../cfg/css/app.css'>
+		<script src='../cfg/js/modules.js'></script>
+		<script src='../cfg/js/route.js'></script>		
+<!-- C O N T R O L L E R S	-->
+		<script src='../c/resumoMensal.js'></script>				
+	</head>
+	<body>
+		<div ng-include="'resumoMensal.html'"></div>		
+	</body>
+</html>

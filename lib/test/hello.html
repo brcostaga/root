@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<!-- http://localhost/orcamento/test/hello/hello.html -->
+<html ng-app='helloWorld'>
+	<head>
+		<title>Hello World	</title>
+		<script src='angular.js'></script>
+		<script>
+			angular.module('helloWorld',[]);
+			angular.module('helloWorld').controller('helloWorldCtrl', function($scope){
+				$scope.message = 'helloWorld';
+			});
+		</script>
+	</head>
+	<body ng-controller= 'helloWorldCtrl'>
+		{{message}}		
+	</body>
+</html>

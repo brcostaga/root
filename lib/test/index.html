@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app='orcamentoApp'>
+	<head>
+		<title>Orçamento</title>
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
+		<style>
+			.jumbotron {
+				width: 400px;
+				text-align: center;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 20px;
+			}
+			.table{
+				margin-top: 20px;
+			}
+		</style>
+		<script src='lib/angular/angular.js'></script>
+		<script>
+			angular.module('orcamentoApp',[]);
+			angular.module('orcamentoApp').controller('resumoMensalCtrl', function($scope, $http){
+				$scope.app = 'Orçamento';
+				$scope.contatos = [];
+				var getResumoMensalJson = function(){
+					$http.get("http://localhost/orcamento/m/resumo_mensal.php").success(function(data){						
+						$scope.contatos = data;
+					});
+				};
+				getResumoMensalJson();
+			});
+		</script>
+	</head>
+	<body ng-controller= 'resumoMensalCtrl'>
+		<div class='jumbotron'>	
+			<h3>{{app}}	</h3>
+			<table class='table table-striped'>
+				<tr>
+					<th>Vencimento	</th>
+					<th>Conta 		</th>
+					<th>Valor 		</th>
+				</tr>
+				
+				<tr ng-repeat='contato in contatos'>
+					<td>{{contato.VENCIMENTO}}	</td> 
+					<td>{{contato.CONTA}}		</td> 
+					<td>{{contato.VALOR}}		</td>
+				</tr>				
+			</table>
+		</div>
+	</body>
+</html>
