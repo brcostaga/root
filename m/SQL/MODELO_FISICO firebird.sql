@@ -35,17 +35,19 @@ CREATE TABLE tb_grupos (
 CREATE TABLE tb_movimentos (
 	cd_movimento                   INTEGER PRIMARY KEY
 	,cd_grupo                      SMALLINT
+	,cd_categoria                  SMALLINT
 	,cd_conta                      SMALLINT
 	,vl_movimento                  DOUBLE PRECISION
 	,dt_movimento                  DATE
 	,dt_vencimento				   DATE
 	,cd_competencia				   CHAR(6)	
 	,ds_historico                  VARCHAR(50)
+	,cd_parcela					   SMALLINT
+	,qt_parcelas				   SMALLINT
 );
 
 CREATE TABLE tb_contas (
-	cd_conta                       SMALLINT PRIMARY KEY
-	,cd_categoria                  SMALLINT
+	cd_conta                       SMALLINT PRIMARY KEY	
 	,nm_conta                      VARCHAR(30)
 	,cd_tipo       				   SMALLINT
 );
@@ -58,7 +60,7 @@ CREATE TABLE tb_ds_tipo_contas(
 ALTER TABLE tb_movimentos ADD FOREIGN KEY(cd_conta)     	REFERENCES tb_contas (cd_conta);
 ALTER TABLE tb_movimentos ADD FOREIGN KEY(cd_grupo)     	REFERENCES tb_grupos (cd_grupo);
 ALTER TABLE tb_movimentos ADD FOREIGN KEY(cd_competencia) 	REFERENCES tb_competencias (cd_competencia);
-ALTER TABLE tb_contas     ADD FOREIGN KEY(cd_categoria) 	REFERENCES tb_categorias (cd_categoria);
+ALTER TABLE tb_movimentos ADD FOREIGN KEY(cd_categoria) 	REFERENCES tb_categorias (cd_categoria);
 ALTER TABLE tb_contas     ADD FOREIGN KEY(cd_tipo)			REFERENCES tb_ds_tipo_contas(cd_tipo);
 
 -- SEQUENCES
@@ -91,20 +93,38 @@ INSERT INTO tb_ds_tipo_contas VALUES(3,'Calculo');
 
 INSERT INTO tb_categorias VALUES(NEXT VALUE FOR sq_categorias,'Receitas Fixas',NULL);
 INSERT INTO tb_categorias VALUES(NEXT VALUE FOR sq_categorias,'Despesas Fixas',NULL);
+INSERT INTO tb_categorias VALUES(NEXT VALUE FOR sq_categorias,'Diversos',NULL);
+INSERT INTO tb_categorias VALUES(NEXT VALUE FOR sq_categorias,'Mercado',NULL);
+INSERT INTO tb_categorias VALUES(NEXT VALUE FOR sq_categorias,'Farmacia',NULL);
+INSERT INTO tb_categorias VALUES(NEXT VALUE FOR sq_categorias,'Carro',NULL);
+INSERT INTO tb_categorias VALUES(NEXT VALUE FOR sq_categorias,'Encargos',NULL);
 
-INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,1 ,'Salario',1);
-INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,1,'Vale',1);
-INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,2,'Luz',2);
-INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,2,'Net',2);
-INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,2,'IPTU',2);
+INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,'Salario',1);
+INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,'Vale',1);
+INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,'Luz',2);
+INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,'Net',2);
+INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,'IPTU',2);
+INSERT INTO tb_contas VALUES(NEXT VALUE FOR sq_contas,'ITAU 6887',2);
 
 INSERT INTO tb_grupos VALUES(NEXT VALUE FOR sq_grupos,'ITAU CC');
-INSERT INTO tb_grupos VALUES(NEXT VALUE FOR sq_grupos,'ITAU 7362');
+INSERT INTO tb_grupos VALUES(NEXT VALUE FOR sq_grupos,'ITAU 6887');
 
-INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,1,1,1000,'26.10.2016','05.10.2016','201610',NULL);
-INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,1,2,2000,'26.10.2016','24.10.2016','201610',NULL);
-INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,1,3,80,'26.10.2016','28.10.2016','201610',NULL);
-INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,1,4,180,'26.10.2016','25.10.2016','201610',NULL);
-INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,1,5,144,'26.10.2016','11.10.2016','201610',NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,NULL,1,1,1000,'26.10.2016','05.10.2016','201610',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,NULL,1,2,2000,'26.10.2016','24.10.2016','201610',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,NULL,2,3,80,'26.10.2016','28.10.2016','201610',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,NULL,2,4,180,'26.10.2016','25.10.2016','201610',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,NULL,2,5,144,'26.10.2016','11.10.2016','201610',NULL,NULL,NULL);
+
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,2,3,6,344.44,'07.06.2016','26.10.2016','201610','SOFA MONICA',6,9);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,2,3,6,89.99,'17.07.2016','26.10.2016','201610','Zenfone Go',4,10);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,2,3,6,83.66,'10.10.2016','26.10.2016','201610','PAGSEGURO VARINHA',2,2);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,2,3,6,26.00,'11.10.2016','26.10.2016','201610','XICKOS (MARCELA)',2,5);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,2,6,6,30.00,'14.10.2016','26.10.2016','201610','EXTRA POSTO',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,2,3,6,49.99,'17.10.2016','26.10.2016','201610','PERNAMBUCANAS',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,2,4,6,22.01,'19.10.2016','26.10.2016','201610','SONDA',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,2,4,6,21.79,'19.10.2016','26.10.2016','201610','SONDA',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,2,3,6,31.50,'21.10.2016','26.10.2016','201610','MAHOGANY',1,2);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,2,4,6,2.78,'24.10.2016','26.10.2016','201610','SONDA',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NEXT VALUE FOR sq_movimentos,2,4,6,13.89,'24.10.2016','26.10.2016','201610','FIKBELLA',NULL,NULL);
 
 COMMIT WORK;

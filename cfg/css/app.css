@@ -1,5 +1,12 @@
 #resumoMensal{		
-	width: auto;	
+	width: auto;		
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+#competencias{
+	margin-left: 20px;
+	margin-top: 20px;		
 }
 
 .vencimento{
