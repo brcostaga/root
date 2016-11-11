@@ -1,19 +1,32 @@
-#resumoMensal{		
-	width: auto;		
+#appName{
 	margin-left: 20px;
 	margin-top: 20px;
+}
+
+#resumoMensalDiv{		
+	width: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+	
+}
+
+#resumoMensalTable{		
+	width: auto;	
 }
 
 #competencias{
 	margin-left: 20px;
 	margin-top: 20px;		
+
 }
 
 .vencimento{
-	width: 1px;
+	width: 1px !important;
 }
 .conta{
-	width: 1px;
+	width: 100px;
 }
 .valor{
 	text-align: right;	

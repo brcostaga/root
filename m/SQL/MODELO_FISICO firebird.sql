@@ -48,7 +48,7 @@ CREATE TABLE tb_movimentos (
 
 CREATE TABLE tb_contas (
 	cd_conta                       SMALLINT PRIMARY KEY	
-	,nm_conta                      VARCHAR(30)
+	,nm_conta                      VARCHAR(30) CHARACTER SET WIN1252
 	,cd_tipo       				   SMALLINT
 );
 
