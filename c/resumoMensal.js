@@ -13,7 +13,15 @@ angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http
 			,method: "GET"
 			,params: {cd_competencia: $scope.cd_competencia}
 		}).success(function(data){
-			$scope.rs = data;
+			$scope.resumoMensal = data;
 		});		
+
+		$http({
+			url: "http://localhost/orcamento/m/movimentosGrupo.php"
+			,method: "GET"
+			,params: {cd_competencia: $scope.cd_competencia}
+		}).success(function(data){
+			$scope.movimentosGrupo = data;
+		});
 	};	
 });

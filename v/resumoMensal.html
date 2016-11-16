@@ -1,5 +1,5 @@
 <div ng-controller='resumoMensal'  >
-	<div id="competencias">
+	<div id="competencias"> Competência:
 		<select 
 			ng-model='cd_competencia'
 			ng-options="competencia.CD_COMPETENCIA as competencia.NM_COMPETENCIA for competencia in competencias"
@@ -14,16 +14,39 @@
 				<tr>	
 					<th class='vencimento'> Vencimento</th>
 					<th class='conta'>Conta</th>
+					<th class='conta'>Categoria</th>
 					<th class='valor'>Valor(R$)</th>
-					<th class='tipo'>Tipo</th>
+					<th class='tipo'>Saldo(R$)</th>
 				</tr>				
 			</thead>
 			<tbody>
-				<tr ng-repeat='row in rs'>			
+				<tr ng-repeat='row in resumoMensal'>			
 					<td class='vencimento' ng-bind="row.VENCIMENTO"'></td>
 					<td class='conta' ng-bind="row.CONTA"'></td>
+					<td class='categoria' ng-bind="row.CATEGORIA"'></td>
 					<td class='valor'>{{row.VALOR | currency: ''}}</td>
-					<td class='tipo' ng-bind="row.TIPO"></td>
+					<td class='valor'>{{row.SALDO | currency: ''}}</td>
+				</tr>	
+			</tbody>		
+		</table>
+
+		<table id="movimentosGrupo" class='table table-bordered table-striped table-condensed'>
+			<thead>
+				<tr>	
+					<th class=''>Data</th>
+					<th class=''>Histórico</th>
+					<th class=''>Parcela</th>
+					<th class=''>Valor(R$)</th>
+					<th class=''>Categoria(R$)</th>
+				</tr>				
+			</thead>
+			<tbody>
+				<tr ng-repeat='row in movimentosGrupo'>			
+					<td class='' >{{row.DATA_MOVIMENTO}}</td>
+					<td class='' >{{row.HISTORICO}}</td>
+					<td class='' >{{row.PARCELA}}</td>
+					<td class=''>{{row.VALOR | currency: ''}}</td>
+					<td class=''>{{row.CATEGORIA}}</td>
 				</tr>	
 			</tbody>		
 		</table>	
