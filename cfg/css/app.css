@@ -16,9 +16,13 @@
 	width: auto;
 	float: left;	
 }
-#movimentosGrupo{		
+#movimentosGrupo{			
 	width: auto;
-	float: right;	
+	float: left;	
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
 }
 
 #competencias{
@@ -37,6 +41,18 @@
 	text-align: right;	
 	width: 1px;
 }
+
+.valorNegativo{
+	text-align: right;	
+	width: 1px;
+	color: red;
+}
+.valorPositivo{
+	text-align: right;	
+	width: 1px;
+	color: blue;
+}
+
 .tipo{
 	width: 1px;
 }

@@ -6,7 +6,7 @@ angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http
 		});
 	};	
 	getCompetenciasJson();
-
+	
 	$scope.getResumoMensalJson = function(){		
 		$http({
 			url: "http://localhost/orcamento/m/resumoMensal.php"
@@ -14,14 +14,6 @@ angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http
 			,params: {cd_competencia: $scope.cd_competencia}
 		}).success(function(data){
 			$scope.resumoMensal = data;
-		});		
-
-		$http({
-			url: "http://localhost/orcamento/m/movimentosGrupo.php"
-			,method: "GET"
-			,params: {cd_competencia: $scope.cd_competencia}
-		}).success(function(data){
-			$scope.movimentosGrupo = data;
-		});
+		});	
 	};	
 });

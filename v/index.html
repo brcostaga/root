@@ -13,10 +13,10 @@
 		<script src='../cfg/js/modules.js'></script>
 		<script src='../cfg/js/route.js'></script>		
 <!-- C O N T R O L L E R S	-->
-		<script src='../c/resumoMensal.js'></script>				
+		<script src='../c/resumoMensal.js'></script>
+		<script src='../c/grupoDetalhe.js'></script>
 	</head>
-	<body>
-		<h1 id='appName'>Orçamento</h1>
-		<div ng-include="'resumoMensal.html'"></div>		
+	<body>		
+		<div ng-view></div>
 	</body>
 </html>

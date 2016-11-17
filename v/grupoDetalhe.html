@@ -1,0 +1,23 @@
+<div id="competencias"> 	
+</div>
+	<table id="movimentosGrupo" class='table table-bordered table-striped table-condensed'>
+		<thead>
+			<tr>	
+				<th class=''>Data</th>
+				<th class=''>Histórico</th>
+				<th class=''>Parcela</th>
+				<th class=''>Valor(R$)</th>
+				<th class=''>Categoria(R$)</th>
+			</tr>				
+		</thead>
+		<tbody>
+			<tr ng-repeat='movimentoGrupo in movimentosGrupo'>			
+				<td class=''>{{movimentoGrupo.DATA_MOVIMENTO}}</td>
+				<td class=''>{{movimentoGrupo.HISTORICO}}</td>
+				<td class=''>{{movimentoGrupo.PARCELA}}</td>
+				<td class=''>{{movimentoGrupo.VALOR | currency: ''}}</td>
+				<td class=''>{{movimentoGrupo.CATEGORIA}}</td>
+			</tr>	
+		</tbody>		
+	</table>
+</div>
