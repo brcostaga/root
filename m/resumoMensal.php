@@ -20,7 +20,6 @@ SELECT
 FROM tb_movimentos a
 INNER JOIN tb_contas b ON a.cd_conta = b.cd_conta
 LEFT JOIN tb_grupos c ON c.cd_grupo = a.cd_grupo
-INNER JOIN tb_ds_tipo_contas d ON d.cd_tipo = b.cd_tipo
 INNER JOIN tb_categorias e ON e.cd_categoria = a.cd_categoria
 WHERE a.cd_competencia = $_GET[cd_competencia]
 GROUP BY vencimento, conta, categoria, grupo
