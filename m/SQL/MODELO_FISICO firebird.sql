@@ -1,5 +1,4 @@
-DROP TRIGGER linha_mov;
-DROP PROCEDURE sp_linha_mov;
+DROP PROCEDURE resumoMensal;
 DROP TRIGGER tb_movimentos_ai;
 DROP TRIGGER tb_categorias_ai;
 DROP TRIGGER tb_recursos_ai;
@@ -27,6 +26,8 @@ CREATE TABLE tb_competencias(
 	,cp_ano							SMALLINT
 	,cp_mes 						SMALLINT
 	,st_competencia 				SMALLINT
+	,saldo_inicial					DOUBLE PRECISION
+	,saldo_final					DOUBLE PRECISION
 );
 
 CREATE TABLE tb_categorias (
@@ -42,8 +43,7 @@ CREATE TABLE tb_recursos (
 
 CREATE TABLE tb_movimentos (
 	cd_movimento                   INTEGER PRIMARY KEY
-	,cd_recurso                    SMALLINT
-	,cd_linha					   SMALLINT
+	,cd_recurso                    SMALLINT	
 	,cd_categoria                  SMALLINT
 	,cd_conta                      SMALLINT
 	,vl_movimento                  DOUBLE PRECISION
@@ -78,95 +78,54 @@ CREATE SEQUENCE sq_recursos;
 CREATE SEQUENCE sq_movimentos;
 CREATE SEQUENCE sq_contas;
 
+SET TERM ^ ;
 -- VIEWS
-	--CREATE VIEW vw_movimentos AS SELECT  cd_linha, cd_movimento, cd_competencia FROM tb_movimentos ORDER BY cd_linha;
+	
 
 -- PROCEDURES
-SET TERM ^ ;
-
-CREATE OR ALTER PROCEDURE sp_linha_mov
+CREATE PROCEDURE resumoMensal
 (
-      new_cd_linha SMALLINT
-      ,new_cd_competencia CHAR(6)
-      ,new_cd_movimento INTEGER
-      ,old_cd_linha SMALLINT
-      ,old_cd_competencia CHAR(6)
-      ,old_cd_movimento INTEGER
-      ,dml CHAR(1)
+      cd_competencia CHAR(6)
+)
+RETURNS(
+      vencimento SMALLINT
+      ,cd_conta SMALLINT
+      ,conta VARCHAR(30) CHARACTER SET WIN1252
+      ,tipo_conta SMALLINT
+      ,valor DOUBLE PRECISION
+      ,categoria VARCHAR(30) CHARACTER SET WIN1252
+      ,saldo DOUBLE PRECISION
 )
 AS
-DECLARE v_cd_movimento INTEGER;
-DECLARE v_cd_linha SMALLINT;
 BEGIN
--- UPDATE
-      IF(dml = 'U' AND new_cd_linha IS NOT NULL) THEN
+      FOR
+            SELECT
+                  EXTRACT(DAY FROM a.dt_vencimento)        AS VENCIMENTO
+                  ,b.cd_conta                              AS CD_CONTA
+                  ,b.nm_conta                              AS CONTA
+                  ,b.cd_tipo                               AS TIPO_CONTA
+                  ,SUM(a.vl_movimento)                     AS VALOR
+                  ,CASE b.cd_tipo
+                        WHEN 2 THEN ''
+                        ELSE e.nm_categorias
+                  END                                      AS CATEGORIA
+            FROM tb_movimentos a
+            INNER JOIN tb_contas b ON a.cd_conta = b.cd_conta
+            INNER JOIN tb_categorias e ON e.cd_categoria = a.cd_categoria
+            WHERE a.cd_competencia = :cd_competencia
+            GROUP BY vencimento,cd_conta,conta
+            ,tipo_conta
+            ,categoria
+            INTO :vencimento, :cd_conta, :conta ,:tipo_conta, :valor, :categoria
+      DO
       BEGIN
-            FOR
-                  SELECT cd_movimento, cd_linha
-                  FROM tb_movimentos
-                  WHERE
-                        cd_linha >= :new_cd_linha
-                        AND cd_competencia = :new_cd_competencia
-                        AND cd_movimento <> :new_cd_movimento
-                  ORDER BY cd_linha
-                  INTO :v_cd_movimento, :v_cd_linha
-            DO
-            BEGIN
-                  UPDATE tb_movimentos SET cd_linha = cd_linha +1 WHERE cd_movimento = :v_cd_movimento;
-            END
-      END
--- INSERT
-      IF(dml = 'I'  AND new_cd_linha IS NOT NULL) THEN
-      BEGIN
-            FOR
-                  SELECT cd_movimento, cd_linha
-                  FROM tb_movimentos
-                  WHERE
-                        cd_linha >= :new_cd_linha
-                        AND cd_competencia = :new_cd_competencia
-                  ORDER BY cd_linha
-                  INTO :v_cd_movimento, :v_cd_linha
-            DO
-            BEGIN
-                  UPDATE tb_movimentos SET cd_linha = cd_linha +1 WHERE cd_movimento = :v_cd_movimento;
-            END
-      END
--- DELETE
-      IF(dml = 'D'  AND old_cd_linha IS NOT NULL) THEN
-      BEGIN
-            FOR
-                  SELECT cd_movimento, cd_linha
-                  FROM tb_movimentos
-                  WHERE
-                        cd_linha >= :old_cd_linha
-                        AND cd_competencia = :old_cd_competencia
-                  ORDER BY cd_linha
-                  INTO :v_cd_movimento, :v_cd_linha
-            DO
-            BEGIN
-                  UPDATE tb_movimentos SET cd_linha = cd_linha -1 WHERE cd_movimento = :v_cd_movimento;
-            END
+            saldo = COALESCE(saldo,0) + valor;
+            SUSPEND;
       END
 END
 ^
 -- TRIGGERS
 
-CREATE OR ALTER TRIGGER linha_mov FOR tb_movimentos
-ACTIVE
-AFTER UPDATE
-AS
-DECLARE v_cd_movimento INTEGER;
-DECLARE v_cd_linha SMALLINT;
-BEGIN
-      IF (rdb$get_context('USER_TRANSACTION', 'MY_LOCK') IS NULL)  THEN
-      BEGIN
-            rdb$set_context('USER_TRANSACTION', 'MY_LOCK', 1);
-            IF(UPDATING) THEN EXECUTE PROCEDURE sp_linha_mov(NEW.cd_linha,NEW.cd_competencia,NEW.cd_movimento,NULL,NULL,NULL,'U');
-      END
---      IF(INSERTING) THEN EXECUTE PROCEDURE sp_linha_mov(NEW.cd_linha,NEW.cd_competencia,NEW.cd_movimento,NULL,NULL,NULL,'I');
---      IF(DELETING) THEN EXECUTE PROCEDURE sp_linha_mov(NULL,NULL,NULL,OLD.cd_linha,OLD.cd_competencia,OLD.cd_movimento,'D');
-END
-^
 
 	/*AUTO INCREMENT*/
 CREATE OR ALTER TRIGGER tb_movimentos_ai FOR tb_movimentos
@@ -224,8 +183,8 @@ INSERT INTO tb_descritiva VALUES('TB_COMPETENCIAS','ST_COMPETENCIA',1,'Ativa');
 INSERT INTO tb_descritiva VALUES('TB_COMPETENCIAS','ST_COMPETENCIA',2,'Prevista');
 INSERT INTO tb_descritiva VALUES('TB_COMPETENCIAS','ST_COMPETENCIA',3,'Encerrada');
 
-INSERT INTO tb_competencias VALUES('201610',2016,10,1);
-INSERT INTO tb_competencias VALUES('201611',2016,11,1);
+INSERT INTO tb_competencias VALUES('201610',2016,10,1,NULL,NULL);
+INSERT INTO tb_competencias VALUES('201611',2016,11,1,NULL,NULL);
 
 INSERT INTO tb_categorias VALUES(NULL,'Receitas Fixas',NULL);
 INSERT INTO tb_categorias VALUES(NULL,'Despesas Fixas',NULL);
@@ -236,6 +195,10 @@ INSERT INTO tb_categorias VALUES(NULL,'Carro',NULL);
 INSERT INTO tb_categorias VALUES(NULL,'Encargos',NULL);
 INSERT INTO tb_categorias VALUES(NULL,'Receitas Diversas',NULL);
 INSERT INTO tb_categorias VALUES(NULL,'Despesas Diversas',NULL);
+INSERT INTO tb_categorias VALUES(NULL,'Habitação',NULL);
+INSERT INTO tb_categorias VALUES(NULL,'Carmem',NULL);
+INSERT INTO tb_categorias VALUES(NULL,'Tânia',NULL);
+INSERT INTO tb_categorias VALUES(NULL,'Carol',NULL);
 
 INSERT INTO tb_contas VALUES(NULL,'Salário',1);
 INSERT INTO tb_contas VALUES(NULL,'Vale',1);
@@ -247,45 +210,72 @@ INSERT INTO tb_contas VALUES(NULL,'Tarifas Itaú',1);
 INSERT INTO tb_contas VALUES(NULL,'Receitas Diversas',3);
 INSERT INTO tb_contas VALUES(NULL,'Despesas Diversas',4);
 INSERT INTO tb_contas VALUES(NULL,'Tarifas Caixa',1);
+INSERT INTO tb_contas VALUES(NULL,'Itaú 2752',2);
+INSERT INTO tb_contas VALUES(NULL,'Prestação Caixa',1);
+INSERT INTO tb_contas VALUES(NULL,'Noêmia',1);
+INSERT INTO tb_contas VALUES(NULL,'Extra Itaú Card',2);
+INSERT INTO tb_contas VALUES(NULL,'Besni',2);
+INSERT INTO tb_contas VALUES(NULL,'Estacionamento',1);
+INSERT INTO tb_contas VALUES(NULL,'Condomínio',1);
+INSERT INTO tb_contas VALUES(NULL,'Tânia',1);
+INSERT INTO tb_contas VALUES(NULL,'Carmem',1);
 
 INSERT INTO tb_recursos VALUES(NULL,'ITAU CC');
 
-INSERT INTO tb_movimentos VALUES(NULL,NULL,4,1,1,1281.89,'05.11.2016','05.11.2016','201611',NULL,NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,8,1,2,1502.49,'26.11.2016','26.11.2016','201611',NULL,NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,10,2,3,-80.00,'28.11.2016','28.11.2016','201611',NULL,NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,7,2,4,-180.00,'25.11.2016','25.11.2016','201611',NULL,NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,6,2,5,-144.00,'11.11.2016','11.11.2016','201611',NULL,NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,9,3,6,-344.44,'07.06.2016','26.11.2016','201611','Sofá Mônica',6,9);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,9,3,6,-89.99,'17.07.2016','26.11.2016','201611','Zenfone Go',4,10);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,9,3,6,-83.66,'10.10.2016','26.11.2016','201611','Pagseguro varinha',2,2);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,9,3,6,-26.00,'11.10.2016','26.11.2016','201611','Xickos (Marcela)',2,5);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,9,6,6,-30.00,'14.10.2016','26.11.2016','201611','Extra Posto',NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,9,3,6,-49.99,'17.10.2016','26.11.2016','201611','Pernambucanas',NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,9,4,6,-22.01,'19.10.2016','26.11.2016','201611','Sonda',NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,9,4,6,-21.79,'19.10.2016','26.11.2016','201611','Sonda',NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,9,3,6,-31.50,'21.10.2016','26.11.2016','201611','Mahogany',1,2);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,9,4,6,-2.78,'24.10.2016','26.11.2016','201611','Sonda',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,1,1,1281.89,'05.11.2016','05.11.2016','201611',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,1,2,1502.49,'26.11.2016','26.11.2016','201611',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,2,3,-80.00,'28.11.2016','28.11.2016','201611',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,2,4,-292.47,'25.11.2016','25.11.2016','201611',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,2,5,-157.75,'11.11.2016','11.11.2016','201611',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,3,6,-344.44,'07.06.2016','26.11.2016','201611','Sofá Mônica',6,9);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,3,6,-89.99,'17.07.2016','26.11.2016','201611','Zenfone Go',4,10);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,3,6,-83.66,'10.10.2016','26.11.2016','201611','Pagseguro varinha',2,2);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,3,6,-26.00,'11.10.2016','26.11.2016','201611','Xickos (Marcela)',2,5);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,6,6,-30.00,'14.10.2016','26.11.2016','201611','Extra Posto',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,3,6,-49.99,'17.10.2016','26.11.2016','201611','Pernambucanas',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,4,6,-22.01,'19.10.2016','26.11.2016','201611','Sonda',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,4,6,-21.79,'19.10.2016','26.11.2016','201611','Sonda',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,3,6,-31.50,'21.10.2016','26.11.2016','201611','Mahogany',1,2);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,4,6,-2.78,'24.10.2016','26.11.2016','201611','Sonda',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,4,6,-13.89,'24.10.2016','26.11.2016','201611','Fikbella',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,7,7,-56.60,'02.11.2016','02.11.2016','201611',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,8,8,50.00,'12.11.2016','01.11.2016','201611','Peg Pão',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,8,8,12.00,'14.11.2016','01.11.2016','201611','Toninho',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,8,8,52.00,'15.11.2016','01.11.2016','201611','Toninho',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,9,9,-2.00,'15.11.2016','01.11.2016','201611','Pregos',NULL,NULL);
 INSERT INTO tb_movimentos 
 (
 	/*01*/cd_movimento                   
-	/*02*/,cd_recurso  
-	/*03*/,cd_linha                    
-	/*04*/,cd_categoria                  
-	/*05*/,cd_conta                      
-	/*06*/,vl_movimento                  
-	/*07*/,dt_movimento                  
-	/*08*/,dt_vencimento				   
-	/*09*/,cd_competencia				   
-	/*10*/,ds_historico                  
-	/*11*/,cd_parcela					   
-	/*12*/,qt_parcelas				   
+	/*02*/,cd_recurso  	                    
+	/*03*/,cd_categoria                  
+	/*04*/,cd_conta                      
+	/*05*/,vl_movimento                  
+	/*06*/,dt_movimento                  
+	/*07*/,dt_vencimento				   
+	/*08*/,cd_competencia				   
+	/*09*/,ds_historico                  
+	/*10*/,cd_parcela					   
+	/*11*/,qt_parcelas				   
 )
-VALUES(NULL,NULL,9,4,6,-13.89,'24.10.2016','26.11.2016','201611','Fikbella',NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,3,7,7,-56.60,'02.11.2016','02.11.2016','201611',NULL,NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,1,8,8,50.00,'12.11.2016','01.11.2016','201611','Peg Pão',NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,1,8,8,12.00,'14.11.2016','01.11.2016','201611','Toninho',NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,1,8,8,52.00,'15.11.2016','01.11.2016','201611','Toninho',NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,2,9,9,-2.00,'15.11.2016','01.11.2016','201611','Pregos',NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,5,7,10,-20.80,'10.11.2016','10.11.2016','201611',NULL,NULL,NULL);
+VALUES(NULL,NULL,7,10,-20.80,'10.11.2016','10.11.2016','201611',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,7,11,-12.50,'23.07.2016','10.11.2016','201611','Anuidade',4,8);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,4,11,-48.63,'10.10.2016','10.11.2016','201611','Sonda',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,10,12,-934.11,'16.11.2016','16.11.2016','201611',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,9,9,-150.00,'19.11.2016','01.11.2016','201611','Gilberto',1,2);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,9,9,-250.00,'19.11.2016','01.11.2016','201611','Luiz Fabiano',1,2);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,8,13,344.44,'26.11.2016','26.11.2016','201611','Noêmia',6,9);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,3,14,-24.49,'09.03.2016','26.11.2016','201611','TV',9,10);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,3,14,-24.49,'09.03.2016','26.11.2016','201611','TV',9,10);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,7,14,-7.25,'26.11.2016','26.11.2016','201611','Anuidade',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,6,14,-148.28,'17.10.2016','26.11.2016','201611','Posto Extra',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,6,14,-100.00,'03.11.2016','26.11.2016','201611','Posto Extra',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,12,15,-54.98,'09.06.2016','26.11.2016','201611','Tânia',6,6);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,11,15,-67.49,'19.08.2016','26.11.2016','201611','Carmem',3,6);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,13,15,-11.66,'20.10.2016','26.11.2016','201611','Carol',1,6);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,7,15,-5.80,'26.11.2016','26.11.2016','201611','Anuidade',NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,2,16,-180.00,'26.11.2016','26.11.2016','201611',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,2,17,-308.52,'30.11.2016','30.11.2016','201611',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,8,18,50.00,'10.11.2016','10.11.2016','201611',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,8,19,67.49,'10.11.2016','10.11.2016','201611',NULL,NULL,NULL);
 
 COMMIT WORK;

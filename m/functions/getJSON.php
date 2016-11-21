@@ -5,7 +5,7 @@
 		
 		$ps = $con->prepare($query);
 		$ps->execute();
-		$rs = $ps->fetchAll(PDO::FETCH_OBJ);		
+		$rs = $ps->fetchAll(PDO::FETCH_OBJ);			
 		$json = json_encode($rs, JSON_UNESCAPED_UNICODE);
 		echo $json;
 	};
