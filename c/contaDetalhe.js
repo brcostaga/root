@@ -1,12 +1,12 @@
-angular.module('orcamentoApp').controller('grupoDetalhe', function($scope, $http, $routeParams){
+angular.module('orcamentoApp').controller('contaDetalhe', function($scope, $http, $routeParams){
 	$scope.cd_competencia;	
 	getGrupoDetalheJson = function(){
 		$http({
-			url: "http://localhost/orcamento/m/movimentosGrupo.php"
+			url: "http://localhost/orcamento/m/contaDetalhe.php"
 			,method: "GET"
 			,params: {
 				cd_competencia: $routeParams.cd_competencia
-				,cd_grupo: $routeParams.cd_grupo
+				,cd_conta: $routeParams.cd_conta
 			}
 		}).success(function(data){
 			$scope.movimentosGrupo = data;

@@ -32,9 +32,10 @@
 
 .vencimento{
 	width: 1px !important;
+	text-align: center;
 }
 .conta{
-	width: 100px;
+	width: auto;
 }
 .valor{
 	text-align: right;	
