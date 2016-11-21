@@ -83,21 +83,20 @@ SET TERM ^ ;
 	
 
 -- PROCEDURES
-CREATE PROCEDURE resumoMensal
-(
-      cd_competencia CHAR(6)
-)
-RETURNS(
-      vencimento SMALLINT
-      ,cd_conta SMALLINT
-      ,conta VARCHAR(30) CHARACTER SET WIN1252
-      ,tipo_conta SMALLINT
-      ,valor DOUBLE PRECISION
-      ,categoria VARCHAR(30) CHARACTER SET WIN1252
-      ,saldo DOUBLE PRECISION
-)
+CREATE OR ALTER PROCEDURE resumomensal (
+      cd_competencia CHAR(6))
+RETURNS (
+      vencimento SMALLINT,
+      cd_conta   SMALLINT,
+      conta      VARCHAR(30) CHARACTER SET win1252,
+      tipo_conta SMALLINT,
+      valor      DOUBLE PRECISION,
+      categoria  VARCHAR(30) CHARACTER SET win1252,
+      saldo      DOUBLE PRECISION)
 AS
+DECLARE VARIABLE saldo_inicial DOUBLE PRECISION;
 BEGIN
+      SELECT saldo_inicial FROM tb_competencias a WHERE a.cd_competencia = :cd_competencia INTO :saldo_inicial;
       FOR
             SELECT
                   EXTRACT(DAY FROM a.dt_vencimento)        AS VENCIMENTO
@@ -119,7 +118,7 @@ BEGIN
             INTO :vencimento, :cd_conta, :conta ,:tipo_conta, :valor, :categoria
       DO
       BEGIN
-            saldo = COALESCE(saldo,0) + valor;
+            saldo = COALESCE(saldo,:saldo_inicial) + valor;
             SUSPEND;
       END
 END
@@ -184,7 +183,7 @@ INSERT INTO tb_descritiva VALUES('TB_COMPETENCIAS','ST_COMPETENCIA',2,'Prevista'
 INSERT INTO tb_descritiva VALUES('TB_COMPETENCIAS','ST_COMPETENCIA',3,'Encerrada');
 
 INSERT INTO tb_competencias VALUES('201610',2016,10,1,NULL,NULL);
-INSERT INTO tb_competencias VALUES('201611',2016,11,1,NULL,NULL);
+INSERT INTO tb_competencias VALUES('201611',2016,11,1,498.81,NULL);
 
 INSERT INTO tb_categorias VALUES(NULL,'Receitas Fixas',NULL);
 INSERT INTO tb_categorias VALUES(NULL,'Despesas Fixas',NULL);
@@ -224,7 +223,7 @@ INSERT INTO tb_recursos VALUES(NULL,'ITAU CC');
 
 INSERT INTO tb_movimentos VALUES(NULL,NULL,1,1,1281.89,'05.11.2016','05.11.2016','201611',NULL,NULL,NULL);
 INSERT INTO tb_movimentos VALUES(NULL,NULL,1,2,1502.49,'26.11.2016','26.11.2016','201611',NULL,NULL,NULL);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,2,3,-80.00,'28.11.2016','28.11.2016','201611',NULL,NULL,NULL);
+INSERT INTO tb_movimentos VALUES(NULL,NULL,2,3,-92.71,'28.11.2016','28.11.2016','201611',NULL,NULL,NULL);
 INSERT INTO tb_movimentos VALUES(NULL,NULL,2,4,-292.47,'25.11.2016','25.11.2016','201611',NULL,NULL,NULL);
 INSERT INTO tb_movimentos VALUES(NULL,NULL,2,5,-157.75,'11.11.2016','11.11.2016','201611',NULL,NULL,NULL);
 INSERT INTO tb_movimentos VALUES(NULL,NULL,3,6,-344.44,'07.06.2016','26.11.2016','201611','Sofá Mônica',6,9);
@@ -264,7 +263,6 @@ INSERT INTO tb_movimentos VALUES(NULL,NULL,10,12,-934.11,'16.11.2016','16.11.201
 INSERT INTO tb_movimentos VALUES(NULL,NULL,9,9,-150.00,'19.11.2016','01.11.2016','201611','Gilberto',1,2);
 INSERT INTO tb_movimentos VALUES(NULL,NULL,9,9,-250.00,'19.11.2016','01.11.2016','201611','Luiz Fabiano',1,2);
 INSERT INTO tb_movimentos VALUES(NULL,NULL,8,13,344.44,'26.11.2016','26.11.2016','201611','Noêmia',6,9);
-INSERT INTO tb_movimentos VALUES(NULL,NULL,3,14,-24.49,'09.03.2016','26.11.2016','201611','TV',9,10);
 INSERT INTO tb_movimentos VALUES(NULL,NULL,3,14,-24.49,'09.03.2016','26.11.2016','201611','TV',9,10);
 INSERT INTO tb_movimentos VALUES(NULL,NULL,7,14,-7.25,'26.11.2016','26.11.2016','201611','Anuidade',NULL,NULL);
 INSERT INTO tb_movimentos VALUES(NULL,NULL,6,14,-148.28,'17.10.2016','26.11.2016','201611','Posto Extra',NULL,NULL);
