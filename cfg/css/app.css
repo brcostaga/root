@@ -3,6 +3,27 @@
 	margin-top: 20px;
 }
 
+#contasDiv{		
+	width: auto;
+	max-height: 200px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-right: 20px;	
+}
+
+#contasForm{
+	float: left;	
+	margin-left: 20px;	
+}
+
+#contasTable{		
+	width: auto;
+	max-height: 200px;
+	float: left;
+	overflow:auto;
+}
+
 #resumoMensalDiv{		
 	width: auto;
 	margin-top: 20px;

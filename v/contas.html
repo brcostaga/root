@@ -1,0 +1,37 @@
+<div id="contasDiv">
+	<table id="contasTable" class='table table-bordered table-striped table-condensed'>
+		<thead>
+			<tr>
+				<th>Código</th>
+				<th>Descrição</th>
+				<th>Tipo</th>
+				<th>Excluir</th>
+				<th>Alterar</th>
+			</tr>				
+		</thead>
+		<tbody>
+			<tr ng-repeat='row in contas'>							
+				<td>{{row.CD_CONTA}}</td>
+				<td>{{row.NM_CONTA}}</td>
+				<td>{{row.CD_TIPO}}</td>
+				<td><button class='btn btn-danger' ng-click="deleteContas(row.CD_CONTA)">Excluir</button></td>
+				<td><button class='ui-icon ui-icon-pencil' ng-click="changeForm(row.CD_CONTA,row.NM_CONTA,row.CD_TIPO)">Alterar</button></td>
+			</tr>	
+		</tbody>		
+	</table>	
+</div>
+
+<div id='contasForm'>	
+	<form  ng-show='!post'>
+		<input type="text" name="nm_conta" ng-model="nm_conta" placeholder='Descrição' required><br>
+		<input type="number" name="cd_tipo" ng-model="cd_tipo" placeholder='Tipo' required><br>
+		<button class='btn btn-primary' ng-click="putContas()">Cadastrar</button>
+	</form>	
+
+	<form ng-show='post'>
+		<input type="number" name="cd_conta" ng-model="cd_conta" required>
+		<input type="text" name="nm_conta" ng-model="nm_conta" required>
+		<input type="number" name="cd_tipo" ng-model="cd_tipo" required>
+		<button ng-click="postContas(cd_conta,nm_conta,cd_tipo)">Salvar</button>
+	</form>
+</div>
