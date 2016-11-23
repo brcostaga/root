@@ -1,12 +1,24 @@
-<div id="contasDiv">
-	<table id="contasTable" class='table table-bordered table-striped table-condensed'>
+<div 
+	id="contasDiv"	
+	class= 'container'	
+>
+	
+	<table 
+		id="contasTable" 
+		class='
+			table 
+			table-bordered 
+			table-condensed 			
+			table-hover
+		'
+	>
 		<thead>
 			<tr>
 				<th>Código</th>
 				<th>Descrição</th>
 				<th>Tipo</th>
-				<th>Excluir</th>
 				<th>Alterar</th>
+				<th>Excluir</th>				
 			</tr>				
 		</thead>
 		<tbody>
@@ -14,24 +26,95 @@
 				<td>{{row.CD_CONTA}}</td>
 				<td>{{row.NM_CONTA}}</td>
 				<td>{{row.CD_TIPO}}</td>
-				<td><button class='btn btn-danger' ng-click="deleteContas(row.CD_CONTA)">Excluir</button></td>
-				<td><button class='ui-icon ui-icon-pencil' ng-click="changeForm(row.CD_CONTA,row.NM_CONTA,row.CD_TIPO)">Alterar</button></td>
+				<td>					
+					<button 
+						class='btn-primary btn-xs'
+						ng-click="changeForm(row.CD_CONTA,row.NM_CONTA,row.CD_TIPO)"
+					>
+						<div class='ui-pg-div'>							
+							<span class="ui-icon ace-icon fa fa-pencil white"></span>
+						</div>
+					</button>					
+				</td>
+				<td>
+					<button
+						class='btn-danger btn-xs' 
+						ng-click="deleteContas(row.CD_CONTA)"						
+					>
+					<div 
+						class="ui-pg-div"
+					>
+						<span class="ui-icon ace-icon fa fa-trash-o white"></span>
+					</div>
+				</button></td>							
 			</tr>	
 		</tbody>		
 	</table>	
-</div>
 
-<div id='contasForm'>	
-	<form  ng-show='!post'>
-		<input type="text" name="nm_conta" ng-model="nm_conta" placeholder='Descrição' required><br>
-		<input type="number" name="cd_tipo" ng-model="cd_tipo" placeholder='Tipo' required><br>
-		<button class='btn btn-primary' ng-click="putContas()">Cadastrar</button>
-	</form>	
 
-	<form ng-show='post'>
-		<input type="number" name="cd_conta" ng-model="cd_conta" required>
-		<input type="text" name="nm_conta" ng-model="nm_conta" required>
-		<input type="number" name="cd_tipo" ng-model="cd_tipo" required>
-		<button ng-click="postContas(cd_conta,nm_conta,cd_tipo)">Salvar</button>
-	</form>
+	<div id='contasForm'>		
+		<!-- A L T E R A R   C O N T A  -->
+		<div class="widget-box" ng-show='post'>
+			<div class="widget-header">
+				<h4 class="widget-title">Alterar Conta</h4>
+			</div>
+
+			<div class="widget-body">
+				<div class="widget-main no-padding">
+					<form >					
+						<fieldset>							
+							<!--<input type="number" name="cd_conta" ng-model="cd_conta" required><br><br>-->
+
+							<label>Descrição</label><br>
+							<input type="text" name="nm_conta" ng-model="nm_conta" required><br><br>
+
+							<label>Tipo</label><br>
+							<input type="number" name="cd_tipo" ng-model="cd_tipo" required>
+						</fieldset>
+
+						<div class="form-actions center">
+							<button 
+								type="button" 
+								class="btn btn-sm btn-success"
+								ng-click="postContas(cd_conta,nm_conta,cd_tipo)"
+							>
+								Salvar
+								<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div> <!-- A L T E R A R   C O N T A  -->
+
+
+		<!-- N O V A   C O N T A  -->
+		<div class="widget-box"  ng-show='!post'>
+			<div class="widget-header">
+				<h4 class="widget-title">Nova Conta</h4>
+			</div>
+
+			<div class="widget-body">
+				<div class="widget-main no-padding">
+					<form>					
+						<fieldset>
+							<input type="text" name="nm_conta" ng-model="nm_conta" placeholder='Descrição' required><br><br>
+							<input type="number" name="cd_tipo" ng-model="cd_tipo" placeholder='Tipo' required><br><br>					
+						</fieldset>
+
+						<div class="form-actions center">
+							<button 
+								type="button" 
+								class="btn btn-sm btn-success"
+								ng-click="putContas()"
+							>
+								Cadastrar
+								<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div> <!-- N O V A   C O N T A  -->
+	</div>
 </div>

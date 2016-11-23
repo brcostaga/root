@@ -4,21 +4,30 @@
 }
 
 #contasDiv{		
-	width: auto;
-	max-height: 200px;
+	width: auto;	
 	margin-top: 20px;
 	margin-bottom: 20px;
 	margin-left: 20px;
 	margin-right: 20px;	
+	background-color: white;
 }
 
 #contasForm{
 	float: left;	
-	margin-left: 20px;	
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-right: 20px;	
+
+
 }
 
 #contasTable{		
 	width: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-right: 20px;	
 	max-height: 200px;
 	float: left;
 	overflow:auto;

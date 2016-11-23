@@ -22,6 +22,9 @@ angular.module('orcamentoApp').controller('contas', function($scope, $http){
 				,cd_tipo: $scope.cd_tipo
 			}
 		}).success(function(data){
+			$scope.cd_conta = undefined;
+			$scope.nm_conta = undefined;	
+			$scope.cd_tipo = undefined;	
 			getContas();
 		});		
 	}
@@ -34,6 +37,10 @@ angular.module('orcamentoApp').controller('contas', function($scope, $http){
 				cd_conta: cd_conta				
 			}
 		}).success(function(data){
+			$scope.post = false;
+			$scope.cd_conta = undefined;
+			$scope.nm_conta = undefined;	
+			$scope.cd_tipo = undefined;	
 			getContas();
 		});				
 	}
