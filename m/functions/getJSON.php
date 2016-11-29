@@ -1,11 +1,15 @@
 <?php
 	function getJSON($query){
-		require('pdo_con.php');		
-		header("Content-Type: text/html'; charset=UTF-8",true);
-		$ps = $con->prepare($query);
-		$ps->execute();
-		$rs = $ps->fetchAll(PDO::FETCH_OBJ);			
-		$json = json_encode($rs, JSON_UNESCAPED_UNICODE/*JSON_PRETTY_PRINT*/);
-		echo $json;
+		require('adodb_con.php');		
+		$result = $con->execute($query);
+		$arr = array();
+		$rs = array();
+		while (!$result->EOF){	    
+		    $result->fetchInto($arr);	    
+		    $arr = array_map('htmlentities',$arr);
+		    array_push($rs,$arr);
+		}		
+		$json = html_entity_decode(json_encode($rs, JSON_UNESCAPED_UNICODE));	
+		echo $json;	
 	};
 ?>
