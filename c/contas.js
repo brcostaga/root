@@ -1,12 +1,11 @@
 angular.module('orcamentoApp').controller('contas', function($scope, $http){
 	$scope.cd_conta;
 	$scope.nm_conta;	
-	$scope.cd_tipo;	
+	$scope.cd_tipo;  		
 	function getContas(){		
 		$http({
 			url: "http://localhost/orcamento/m/crud/contas/contas.php"			
-			,method: "GET"
-			//,params: {cd_competencia: $scope.cd_competencia}
+			,method: "GET"			
 		}).success(function(data){
 			$scope.contas = data;
 		});	
@@ -69,4 +68,18 @@ angular.module('orcamentoApp').controller('contas', function($scope, $http){
 			getContas();
 		});	
 	}
+
+	function getDescritiva (){
+		$http({
+			url: "http://localhost/orcamento/m/descritiva.php"
+			,method: "GET"
+			,params:{
+				nm_tabela: "'TB_CONTAS'"
+				,nm_campo: "'CD_TIPO'"
+			}
+		}).success(function(data){						
+			$scope.tipos = data;
+		});
+	};	
+	getDescritiva();
 });

@@ -2,7 +2,7 @@
 	id="contasDiv"	
 	class= 'container'	
 >
-	
+	<!--C O N S U L T A R-->
 	<table 
 		id="contasTable" 
 		class='
@@ -25,7 +25,7 @@
 			<tr ng-repeat='row in contas'>							
 				<td>{{row.CD_CONTA}}</td>
 				<td>{{row.NM_CONTA}}</td>
-				<td>{{row.CD_TIPO}}</td>
+				<td>{{row.DS_TIPO}}</td>
 				<td>					
 					<button 
 						class='btn-primary btn-xs'
@@ -36,6 +36,7 @@
 						</div>
 					</button>					
 				</td>
+				<!-- E X C L U I R-->
 				<td>
 					<button
 						class='btn-danger btn-xs' 
@@ -46,14 +47,16 @@
 					>
 						<span class="ui-icon ace-icon fa fa-trash-o white"></span>
 					</div>
-				</button></td>							
+					</button>
+				</td>							
+				<!-- E X C L U I R-->
 			</tr>	
 		</tbody>		
 	</table>	
-
+	<!--C O N S U L T A R-->
 
 	<div id='contasForm'>		
-		<!-- A L T E R A R   C O N T A  -->
+		<!-- A L T E R A R-->
 		<div class="widget-box" ng-show='post'>
 			<div class="widget-header">
 				<h4 class="widget-title">Alterar Conta</h4>
@@ -62,14 +65,17 @@
 			<div class="widget-body">
 				<div class="widget-main no-padding">
 					<form >					
-						<fieldset>							
-							<!--<input type="number" name="cd_conta" ng-model="cd_conta" required><br><br>-->
-
-							<label>Descrição</label><br>
+						<fieldset>
+							<label>Descrição:</label><br>
 							<input type="text" name="nm_conta" ng-model="nm_conta" required><br><br>
 
-							<label>Tipo</label><br>
-							<input type="number" name="cd_tipo" ng-model="cd_tipo" required>
+							<label>Tipo:</label><br>
+							<select 
+								ng-model="cd_tipo"
+								ng-options="+tipo.CD as tipo.DS for tipo in tipos track by tipo.CD"
+							>
+								<option value='' disabled selected>Selecione um Tipo de Conta </option>
+							</select>	
 						</fieldset>
 
 						<div class="form-actions center">
@@ -85,10 +91,9 @@
 					</form>
 				</div>
 			</div>
-		</div> <!-- A L T E R A R   C O N T A  -->
+		</div> <!-- A L T E R A R-->
 
-
-		<!-- N O V A   C O N T A  -->
+<!-- I N S E R I R-->
 		<div class="widget-box"  ng-show='!post'>
 			<div class="widget-header">
 				<h4 class="widget-title">Nova Conta</h4>
@@ -99,7 +104,12 @@
 					<form>					
 						<fieldset>
 							<input type="text" name="nm_conta" ng-model="nm_conta" placeholder='Descrição' required><br><br>
-							<input type="number" name="cd_tipo" ng-model="cd_tipo" placeholder='Tipo' required><br><br>					
+							<select 
+								ng-model="cd_tipo"
+								ng-options="+tipo.CD as tipo.DS for tipo in tipos track by tipo.CD"
+							>
+								<option value='' disabled selected>Selecione um Tipo de Conta </option>
+							</select>							
 						</fieldset>
 
 						<div class="form-actions center">
@@ -115,6 +125,6 @@
 					</form>
 				</div>
 			</div>
-		</div> <!-- N O V A   C O N T A  -->
+		</div> <!-- I N S E R I R-->
 	</div>
 </div>
