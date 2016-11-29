@@ -1,0 +1,117 @@
+<div 
+	id="contasDiv"	
+	class= 'container'	
+>
+	<!--C O N S U L T A R-->
+	<table 
+		id="contasTable" 
+		class='
+			table 
+			table-bordered 
+			table-condensed 			
+			table-hover
+		'
+	>
+		<thead>
+			<tr>
+				<th>Código</th>
+				<th>Descrição</th>
+				<th>Pai</th>
+				<th>Alterar</th>
+				<th>Excluir</th>							
+			</tr>				
+		</thead>
+		<tbody>
+			<tr ng-repeat='row in categorias'>							
+				<td>{{row.CD_CATEGORIA}}</td>
+				<td>{{row.NM_CATEGORIAS}}</td>
+				<td>{{row.CD_CATEGORIA_PAI}}</td>
+				<td>					
+					<button 
+						class='btn-primary btn-xs'
+						ng-click="changeForm(row.CD_CATEGORIA,row.NM_CATEGORIAS,row.CD_CATEGORIA_PAI)"
+					>
+						<div class='ui-pg-div'>							
+							<span class="ui-icon ace-icon fa fa-pencil white"></span>
+						</div>
+					</button>					
+				</td>
+				<!-- E X C L U I R-->
+				<td>
+					<button
+						class='btn-danger btn-xs' 
+						ng-click="deleteCategorias(row.CD_CATEGORIA)"						
+					>
+					<div 
+						class="ui-pg-div"
+					>
+						<span class="ui-icon ace-icon fa fa-trash-o white"></span>
+					</div>
+					</button>
+				</td>							
+				<!-- E X C L U I R-->								
+			</tr>	
+		</tbody>		
+	</table>	
+	<!--C O N S U L T A R-->
+
+	<div id='contasForm'>
+		<!-- A L T E R A R-->
+		<div class="widget-box" ng-show='post'>
+			<div class="widget-header">
+				<h4 class="widget-title">Alterar Categoria</h4>
+			</div>
+
+			<div class="widget-body">
+				<div class="widget-main no-padding">
+					<form >					
+						<fieldset>
+							<label>Descrição:</label><br>
+							<input type="text" name="nm_categorias" ng-model="nm_categorias" required><br><br>
+							<label>Tipo:</label><br>
+							<input type="number" name="cd_categoria_pai" ng-model="cd_categoria_pai" placeholder='Categoria Pai' required>
+						</fieldset>
+
+						<div class="form-actions center">
+							<button 
+								type="button" 
+								class="btn btn-sm btn-success"
+								ng-click="postCategorias(cd_categoria,nm_categorias,cd_categoria_pai)"
+							>
+								Salvar
+								<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div> <!-- A L T E R A R-->
+		<div class="widget-box"  ng-show='!post'><!-- I N S E R I R-->
+				<div class="widget-header">
+					<h4 class="widget-title">Nova Categoria</h4>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main no-padding">
+						<form>					
+							<fieldset>
+								<input type="text" name="nm_categorias" ng-model="nm_categorias" placeholder='Descrição' required><br><br>
+								<input type="number" name="cd_categoria_pai" ng-model="cd_categoria_pai" placeholder='Categoria Pai' required><br><br>
+							</fieldset>
+
+							<div class="form-actions center">
+								<button 
+									type="button" 
+									class="btn btn-sm btn-success"
+									ng-click="putCategorias()"
+								>
+									Cadastrar
+									<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div> <!-- I N S E R I R-->	
+	</div>
+</div>

@@ -7,6 +7,11 @@ angular.module('orcamentoApp').config(function($routeProvider){
 		templateUrl: '/orcamento/v/contas.html'
 		,controller: 'contas'
 	});
+	$routeProvider.when('/categorias',{
+		templateUrl: '/orcamento/v/categorias.html'
+		,controller: 'categorias'
+	});
+
 	$routeProvider.when('/contaDetalhe/:cd_conta/:cd_competencia',{
 		templateUrl: '/orcamento/v/contaDetalhe.html'
 		,controller: 'contaDetalhe'

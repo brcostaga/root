@@ -22,8 +22,8 @@ angular.module('orcamentoApp').controller('contas', function($scope, $http){
 			}
 		}).success(function(data){
 			$scope.cd_conta = undefined;
-			$scope.nm_conta = undefined;	
-			$scope.cd_tipo = undefined;	
+			$scope.nm_conta = undefined;
+			$scope.cd_tipo = undefined;
 			getContas();
 		});		
 	}
@@ -50,8 +50,7 @@ angular.module('orcamentoApp').controller('contas', function($scope, $http){
 		$scope.cd_tipo = Number(cd_tipo);
 	}
 
-	$scope.postContas = function(cd_conta,nm_conta,cd_tipo){
-		console.log(Number(cd_conta));
+	$scope.postContas = function(cd_conta,nm_conta,cd_tipo){		
 		$http({
 			url: "http://localhost/orcamento/m/crud/contas/postContas.php"			
 			,method: "GET"
