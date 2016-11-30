@@ -1,9 +1,10 @@
+/*
 #appName{
 	margin-left: 20px;
 	margin-top: 20px;
 }
 
-#contasDiv{		
+#containerDiv{		
 	width: auto;	
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -12,14 +13,29 @@
 	background-color: white;
 }
 
+#resumoMensalDiv{		
+	width: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-right: 20px;	
+}
+
+#resumoMensalTable{		
+	width: auto;
+	float: left;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-right: 20px;		
+}
+*/
 #contasForm{
 	float: left;	
 	margin-top: 20px;
 	margin-bottom: 20px;
 	margin-left: 20px;
-	margin-right: 20px;	
-
-
+	margin-right: 20px;
 }
 
 #contasTable{		
@@ -33,18 +49,7 @@
 	overflow:auto;
 }
 
-#resumoMensalDiv{		
-	width: auto;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	margin-left: 20px;
-	margin-right: 20px;	
-}
 
-#resumoMensalTable{		
-	width: auto;
-	float: left;	
-}
 #movimentosGrupo{			
 	width: auto;
 	float: left;	
@@ -52,37 +57,4 @@
 	margin-bottom: 20px;
 	margin-left: 20px;
 	margin-right: 20px;
-}
-
-#competencias{
-	margin-left: 20px;
-	margin-top: 20px;		
-
-}
-
-.vencimento{
-	width: 1px !important;
-	text-align: center;
-}
-.conta{
-	width: auto;
-}
-.valor{
-	text-align: right;	
-	width: 1px;
-}
-
-.valorNegativo{
-	text-align: right;	
-	width: 1px;
-	color: red;
-}
-.valorPositivo{
-	text-align: right;	
-	width: 1px;
-	color: blue;
-}
-
-.tipo{
-	width: 1px;
 }

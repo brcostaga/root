@@ -1,0 +1,12 @@
+.customContainer{
+	width: auto;
+	float: left;	
+	background-color: white;
+	margin: 20 20 20 20;
+	padding: 20 20 20 20;	
+}
+.customInteger{	text-align: center;}
+.customFloat{text-align: right;}
+.customNegative{color: red;}
+.customPositive{color: blue;}
+.customColumn{width: auto;}

@@ -1,53 +1,55 @@
-<div id="competencias"> Competência:
-	<select 
-		ng-model='cd_competencia'
-		ng-options="competencia.CD_COMPETENCIA as competencia.NM_COMPETENCIA for competencia in competencias"
-		ng-change='getResumoMensalJson()'
-	>
-		<option value='' disabled selected>Selecione uma competência </option>
-	</select>
-	<a href='#/contas'><button>Contas</button></a>
-	<a href='#/categorias'><button>Categorias</button></a>
+<div class='container customContainer'>
+	<div> 
+		<table class='table table-hover table-bordered table-condensed'>
+			<thead>
+				<tr>
+					<th class='customInteger'> Vencimento</th>
+					<th class='customColumn'>Conta</th>
+					<th class='customColumn'>Categoria</th>
+					<th class='customColumn'>Valor(R$)</th>
+					<th class='tipo'>Saldo(R$)</th>
+					<th class='tipo'>Detalhe</th>				
+				</tr>				
+			</thead>
+			<tbody>
+				<tr ng-repeat='row in resumoMensal'>							
+					<td class='customInteger' ng-bind="row.VENCIMENTO"'></td>
+					<td class=''>{{row.CONTA}}</td>
+					<td class='customColumn' ng-bind="row.CATEGORIA"'></td>
+					<td class= 'customFloat'
+						ng-class="{
+							'customNegative':row.VALOR < 0
+							,'customPositive': row.VALOR >=0
+							}">
+						{{row.VALOR | currency: ''}}
+					</td>
+					<td class= 'customFloat'
+						ng-class="{
+							'customNegative':row.SALDO < 0
+							,'customPositive': row.SALDO >=0
+							}">
+						{{row.SALDO | currency: ''}}
+					</td>
+					<td class='conta'><a href="#/contaDetalhe/{{row.CD_CONTA +'/'+ cd_competencia}}">
+						<div ng-show='row.CD_CONTA'>
+							Detalhe
+						</div>
+					</td>				
+				</tr>	
+			</tbody>		
+		</table>
+	</div>	
 </div>
 
-<div id='resumoMensalDiv'>
-	<table id="resumoMensalTable" class='table table-bordered table-striped table-condensed'>
-		<thead>
-			<tr>
-				<th class='vencimento'> Vencimento</th>
-				<th class='conta'>Conta</th>
-				<th class='conta'>Categoria</th>
-				<th class='valor'>Valor(R$)</th>
-				<th class='tipo'>Saldo(R$)</th>
-				<th class='tipo'>Detalhe</th>				
-			</tr>				
-		</thead>
-		<tbody>
-			<tr ng-repeat='row in resumoMensal'>							
-				<td class='vencimento' ng-bind="row.VENCIMENTO"'></td>
-				<td class='conta'>{{row.CONTA}}</td>
-				<td class='categoria' ng-bind="row.CATEGORIA"'></td>
-				<td 
-					ng-class="{
-						'valorNegativo':row.VALOR < 0
-						,'valorPositivo': row.VALOR >=0
-						}">
-					{{row.VALOR | currency: ''}}
-				</td>
-				<td 
-					ng-class="{
-						'valorNegativo':row.SALDO < 0
-						,'valorPositivo': row.SALDO >=0
-						}">
-					{{row.SALDO | currency: ''}}
-				</td>
-				<td class='conta'><a href="#/contaDetalhe/{{row.CD_CONTA +'/'+ cd_competencia}}">
-					<div ng-show='row.CD_CONTA'>
-						Detalhe
-					</div>
-				</td>				
-			</tr>	
-		</tbody>		
-	</table>
+<div class='container customContainer'>
+	<label>Competência:</label>
+		<select 
+			ng-model='cd_competencia'
+			ng-options="competencia.CD_COMPETENCIA as competencia.NM_COMPETENCIA for competencia in competencias"
+			ng-change='getResumoMensalJson()'
+		>
+			<option value='' disabled selected>Selecione uma competência </option>
+		</select>
+		<a href='#/contas'><button class='btn btn-xs btn-success'>Contas</button></a>
+		<a href='#/categorias'><button class='btn btn-xs btn-success'>Categorias</button></a>
 </div>
-

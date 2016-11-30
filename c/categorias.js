@@ -12,6 +12,14 @@ angular.module('orcamentoApp').controller('categorias', function($scope, $http){
 	};
 	getCategorias();
 
+	$scope.cancel = function(){		
+		$scope.post = false;
+		$scope.cd_conta = undefined;
+		$scope.nm_conta = undefined;	
+		$scope.cd_tipo = undefined;	
+		getContas();
+	};
+
 	$scope.putCategorias = function(){		
 		$http({
 			url: "http://localhost/orcamento/m/crud/categorias/putCategorias.php"			

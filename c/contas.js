@@ -12,6 +12,13 @@ angular.module('orcamentoApp').controller('contas', function($scope, $http){
 	};
 	getContas();
 
+	$scope.cancel = function(){		
+		$scope.post = false;
+		$scope.cd_conta = undefined;
+		$scope.nm_conta = undefined;	
+		$scope.cd_tipo = undefined;	
+		getContas();
+	};
 	$scope.putContas = function(){
 		$http({
 			url: "http://localhost/orcamento/m/crud/contas/putContas.php"			

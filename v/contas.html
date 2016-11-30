@@ -1,10 +1,6 @@
-<div 
-	id="contasDiv"	
-	class= 'container'	
->
+<div class= 'container customContainer'>	
 	<!--C O N S U L T A R-->
-	<table 
-		id="contasTable" 
+	<table 			
 		class='
 			table 
 			table-bordered 
@@ -53,77 +49,82 @@
 			</tr>	
 		</tbody>		
 	</table>	
-	<!--C O N S U L T A R-->
+	<!--C O N S U L T A R-->		
+</div>
 
-	<div id='contasForm'>
-		<!-- A L T E R A R-->
-		<div class="widget-box" ng-show='post'>
-			<div class="widget-header">
-				<h4 class="widget-title">Alterar Conta</h4>
+<div class='container customContainer'>
+	<!-- A L T E R A R-->
+	<div class="widget-box" ng-show='post'>
+		<div class="widget-header">
+			<h4 class="widget-title">Alterar Conta</h4>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main no-padding">
+				<form >					
+					<fieldset>
+						<label>Descrição:</label><br>
+						<input type="text" name="nm_conta" ng-model="nm_conta" required><br><br>
+
+						<label>Tipo:</label><br>
+						<select 
+							ng-model="cd_tipo"
+							ng-options="+tipo.CD as tipo.DS for tipo in tipos track by tipo.CD"
+						>
+							<option value='' disabled selected>Selecione um Tipo de Conta </option>
+						</select>	
+					</fieldset>
+					<div class="form-actions center">
+						<button 
+							type="button" 
+							class="btn btn-sm btn-success"
+							ng-click="postContas(cd_conta,nm_conta,cd_tipo)"
+						>
+							Salvar
+							<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+						</button>
+						<button 
+							type="button" 
+							class="btn btn-sm btn-danger"
+							ng-click="cancel()"
+						>
+							Cancelar
+							<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+						</button>
+					</div>
+				</form>
 			</div>
+		</div>
+	</div> <!-- A L T E R A R-->
 
-			<div class="widget-body">
-				<div class="widget-main no-padding">
-					<form >					
-						<fieldset>
-							<label>Descrição:</label><br>
-							<input type="text" name="nm_conta" ng-model="nm_conta" required><br><br>
+	<div class="widget-box"  ng-show='!post'><!-- I N S E R I R-->
+		<div class="widget-header">
+			<h4 class="widget-title">Nova Conta</h4>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main no-padding">
+				<form>					
+					<fieldset>
+						<input type="text" name="nm_conta" ng-model="nm_conta" placeholder='Descrição' required><br><br>
+						<select 
+							ng-model="cd_tipo"
+							ng-options="+tipo.CD as tipo.DS for tipo in tipos track by tipo.CD"
+						>
+							<option value='' disabled selected>Selecione um Tipo de Conta </option>
+						</select>							
+					</fieldset>
 
-							<label>Tipo:</label><br>
-							<select 
-								ng-model="cd_tipo"
-								ng-options="+tipo.CD as tipo.DS for tipo in tipos track by tipo.CD"
-							>
-								<option value='' disabled selected>Selecione um Tipo de Conta </option>
-							</select>	
-						</fieldset>
-
-						<div class="form-actions center">
-							<button 
-								type="button" 
-								class="btn btn-sm btn-success"
-								ng-click="postContas(cd_conta,nm_conta,cd_tipo)"
-							>
-								Salvar
-								<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
-							</button>
-						</div>
-					</form>
-				</div>
+					<div class="form-actions center">
+						<button 
+							type="button" 
+							class="btn btn-sm btn-success"
+							ng-click="putContas()"
+						>
+							Cadastrar
+							<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+						</button>
+					</div>
+				</form>
 			</div>
-		</div> <!-- A L T E R A R-->
-
-		<div class="widget-box"  ng-show='!post'><!-- I N S E R I R-->
-			<div class="widget-header">
-				<h4 class="widget-title">Nova Conta</h4>
-			</div>
-
-			<div class="widget-body">
-				<div class="widget-main no-padding">
-					<form>					
-						<fieldset>
-							<input type="text" name="nm_conta" ng-model="nm_conta" placeholder='Descrição' required><br><br>
-							<select 
-								ng-model="cd_tipo"
-								ng-options="+tipo.CD as tipo.DS for tipo in tipos track by tipo.CD"
-							>
-								<option value='' disabled selected>Selecione um Tipo de Conta </option>
-							</select>							
-						</fieldset>
-
-						<div class="form-actions center">
-							<button 
-								type="button" 
-								class="btn btn-sm btn-success"
-								ng-click="putContas()"
-							>
-								Cadastrar
-								<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
-							</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div> <!-- I N S E R I R-->
-	</div>
+		</div>
+	</div> <!-- I N S E R I R-->
 </div>
