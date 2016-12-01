@@ -86,40 +86,47 @@ SET TERM ^ ;
 CREATE OR ALTER PROCEDURE resumomensal (
       cd_competencia CHAR(6))
 RETURNS (
-      cd_movimento INTEGER,
-      vencimento SMALLINT,
-      cd_conta   SMALLINT,
-      conta      VARCHAR(30) CHARACTER SET win1252,
-      tipo_conta SMALLINT,
-      valor      DOUBLE PRECISION,
-      categoria  VARCHAR(30) CHARACTER SET win1252,
-      saldo      DOUBLE PRECISION)
+      cd_movimento  INTEGER,
+      vencimento    SMALLINT,
+      dt_vencimento DATE,
+      cd_conta      SMALLINT,
+      conta         VARCHAR(30) CHARACTER SET win1252,
+      tipo_conta    SMALLINT,
+      valor         DOUBLE PRECISION,
+      categoria     VARCHAR(30) CHARACTER SET win1252,
+      saldo         DOUBLE PRECISION,
+      cd_categoria  SMALLINT)
 AS
 DECLARE VARIABLE saldo_inicial DOUBLE PRECISION;
 BEGIN
       SELECT saldo_inicial FROM tb_competencias a WHERE a.cd_competencia = :cd_competencia INTO :saldo_inicial;
       FOR
-            SELECT
-                  CASE b.cd_tipo
-                        WHEN 1 THEN cd_movimento
-                        ELSE 0
-                  END                                      AS CD_MOVIMENTO
-                  ,EXTRACT(DAY FROM a.dt_vencimento)       AS VENCIMENTO
-                  ,b.cd_conta                              AS CD_CONTA
-                  ,b.nm_conta                              AS CONTA
-                  ,b.cd_tipo                               AS TIPO_CONTA
-                  ,SUM(a.vl_movimento)                     AS VALOR
-                  ,CASE b.cd_tipo
-                        WHEN 2 THEN ''
-                        ELSE e.nm_categorias
-                  END                                      AS CATEGORIA
-            FROM tb_movimentos a
-            INNER JOIN tb_contas b ON a.cd_conta = b.cd_conta
-            INNER JOIN tb_categorias e ON e.cd_categoria = a.cd_categoria
-            WHERE a.cd_competencia = :cd_competencia
-            GROUP BY cd_movimento,vencimento,cd_conta,conta,tipo_conta,categoria
-            ORDER BY vencimento
-            INTO :cd_movimento,:vencimento, :cd_conta, :conta ,:tipo_conta, :valor, :categoria
+      SELECT
+            CASE b.cd_tipo
+                  WHEN 1 THEN cd_movimento
+                  ELSE 0
+            END                                      AS CD_MOVIMENTO
+            ,EXTRACT(DAY FROM a.dt_vencimento)       AS VENCIMENTO
+            ,A.dt_vencimento                         AS DT_VENCIMENTO
+            ,b.cd_conta                              AS CD_CONTA
+            ,b.nm_conta                              AS CONTA
+            ,b.cd_tipo                               AS TIPO_CONTA
+            ,SUM(a.vl_movimento)                     AS VALOR
+            ,CASE b.cd_tipo
+                  WHEN 2 THEN ''
+                  ELSE e.nm_categorias
+            END                                      AS CATEGORIA
+            ,CASE b.cd_tipo
+                  WHEN 2 THEN NULL
+                  ELSE e.cd_categoria
+            END                                      AS CD_CATEGORIA
+      FROM tb_movimentos a
+      INNER JOIN tb_contas b ON a.cd_conta = b.cd_conta
+      INNER JOIN tb_categorias e ON e.cd_categoria = a.cd_categoria
+      WHERE a.cd_competencia = :cd_competencia
+      GROUP BY cd_movimento,vencimento, dt_vencimento,cd_conta,conta,tipo_conta,categoria,cd_categoria
+      ORDER BY vencimento
+            INTO :cd_movimento,:vencimento,:dt_vencimento, :cd_conta, :conta ,:tipo_conta, :valor, :categoria, :cd_categoria
       DO
       BEGIN
             saldo = COALESCE(saldo,:saldo_inicial) + valor;
