@@ -1,13 +1,12 @@
-<div id="competencias"> 	
-</div>
-	<table id="movimentosGrupo" class='table table-bordered table-striped table-condensed'>
+<div class='container customContainer'>
+	<table class='table table-bordered table-striped table-condensed'>
 		<thead>
 			<tr>	
-				<th class=''>Data</th>
-				<th class=''>Histórico</th>
-				<th class=''>Parcela</th>
-				<th class=''>Valor(R$)</th>
-				<th class=''>Categoria(R$)</th>
+				<th>Data</th>
+				<th>Histórico</th>
+				<th>Parcela</th>
+				<th>Valor(R$)</th>
+				<th>Categoria</th>
 			</tr>				
 		</thead>
 		<tbody>
@@ -15,7 +14,12 @@
 				<td class=''>{{movimentoGrupo.DATA_MOVIMENTO}}</td>
 				<td class=''>{{movimentoGrupo.HISTORICO}}</td>
 				<td class=''>{{movimentoGrupo.PARCELA}}</td>
-				<td class=''>{{movimentoGrupo.VALOR | currency: ''}}</td>
+				<td 
+					class= 'customFloat'
+					ng-class="{
+						'customNegative':movimentoGrupo.VALOR < 0
+						,'customPositive': movimentoGrupo.VALOR >=0
+					}">{{movimentoGrupo.VALOR | currency: ''}}</td>
 				<td class=''>{{movimentoGrupo.CATEGORIA}}</td>
 			</tr>	
 		</tbody>		

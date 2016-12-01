@@ -1,21 +1,23 @@
 <div class='container customContainer'>
-	<div> 
+	<div> 		
+
 		<table class='table table-hover table-bordered table-condensed'>
 			<thead>
-				<tr>
-					<th class='customInteger'> Vencimento</th>
+				<tr>					
+					<th class='customInteger'>Vencimento</th>
 					<th class='customColumn'>Conta</th>
 					<th class='customColumn'>Categoria</th>
 					<th class='customColumn'>Valor(R$)</th>
-					<th class='tipo'>Saldo(R$)</th>
-					<th class='tipo'>Detalhe</th>				
+					<th>Saldo(R$)</th>
+					<th></th>
+					<th></th>
 				</tr>				
 			</thead>
 			<tbody>
-				<tr ng-repeat='row in resumoMensal'>							
+				<tr ng-repeat='row in resumoMensal'>					
 					<td class='customInteger' ng-bind="row.VENCIMENTO"'></td>
 					<td class=''>{{row.CONTA}}</td>
-					<td class='customColumn' ng-bind="row.CATEGORIA"'></td>
+					<td class='customColumn'>{{row.CD_MOVIMENTO}}</td>
 					<td class= 'customFloat'
 						ng-class="{
 							'customNegative':row.VALOR < 0
@@ -31,17 +33,35 @@
 						{{row.SALDO | currency: ''}}
 					</td>
 					<td class='conta'><a href="#/contaDetalhe/{{row.CD_CONTA +'/'+ cd_competencia}}">
-						<div ng-show='row.CD_CONTA'>
+						<div ng-show='!row.CATEGORIA'>
 							Detalhe
 						</div>
-					</td>				
+					</td>
+					<!-- E X C L U I R-->
+					<td>
+						<button
+							class='btn-danger btn-xs' 
+							ng-click="deleteMovimento(row.CD_MOVIMENTO)"						
+						>
+						<div 
+							class="ui-pg-div"
+						>
+
+							<span class="ui-icon ace-icon fa fa-trash-o white"></span>							
+						</div>
+						</button>
+					</td>							
+					<!-- E X C L U I R-->				
 				</tr>	
 			</tbody>		
 		</table>
 	</div>	
 </div>
 
-<div class='container customContainer'>
+<div 
+	class='container customContainer'	
+
+>
 	<label>Competência:</label>
 		<select 
 			ng-model='cd_competencia'
@@ -52,4 +72,49 @@
 		</select>
 		<a href='#/contas'><button class='btn btn-xs btn-success'>Contas</button></a>
 		<a href='#/categorias'><button class='btn btn-xs btn-success'>Categorias</button></a>
+</div>
+
+<div class='container customContainer'>
+	<div class="widget-box"  ng-show='!post'><!-- I N S E R I R-->
+		<div class="widget-header">
+			<h4 class="widget-title">Novo Movimento</h4>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main no-padding">
+				<form>					
+					<fieldset>
+						<input type="number" name="cd_categoria" ng-model="cd_categoria" placeholder='Categoria' required><br><br>
+						<input type="number" name="cd_conta" ng-model="cd_conta" placeholder='Conta' required><br><br>
+						<input type="number" step="0.01" name="vl_movimento" ng-model="vl_movimento" placeholder='Valor' required><br><br>
+						<input type="date" name="dt_movimento" ng-model="dt_movimento" placeholder='Data do Movimento' required><br><br>
+						<input type="date" name="dt_vencimento" ng-model="dt_vencimento" placeholder='Data do Vencimento' required><br><br>
+						<input type="text" name="cd_competencia" ng-model="cd_competencia" placeholder='Competência' required><br><br>
+						<input type="text" name="ds_historico" ng-model="ds_historico" placeholder='Histórico' required><br><br>
+						<input type="number" name="cd_parcela" ng-model="cd_parcela" placeholder='Parcela' required><br><br>
+						<input type="number" name="qt_parcelas" ng-model="qt_parcelas" placeholder='Total de Parcelas' required><br><br>
+
+						<!--						
+						<select 
+							ng-model="cd_tipo"
+							ng-options="+tipo.CD as tipo.DS for tipo in tipos track by tipo.CD"
+						>
+							<option value='' disabled selected>Selecione um Tipo de Conta </option>
+						</select>							
+						-->
+					</fieldset>
+
+					<div class="form-actions center">
+						<button 
+							type="button" 
+							class="btn btn-sm btn-success"
+							ng-click="putMovimento()"
+						>
+							Cadastrar
+							<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div> <!-- I N S E R I R-->
 </div>

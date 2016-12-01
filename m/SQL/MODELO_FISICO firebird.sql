@@ -86,6 +86,7 @@ SET TERM ^ ;
 CREATE OR ALTER PROCEDURE resumomensal (
       cd_competencia CHAR(6))
 RETURNS (
+      cd_movimento INTEGER,
       vencimento SMALLINT,
       cd_conta   SMALLINT,
       conta      VARCHAR(30) CHARACTER SET win1252,
@@ -99,7 +100,11 @@ BEGIN
       SELECT saldo_inicial FROM tb_competencias a WHERE a.cd_competencia = :cd_competencia INTO :saldo_inicial;
       FOR
             SELECT
-                  EXTRACT(DAY FROM a.dt_vencimento)        AS VENCIMENTO
+                  CASE b.cd_tipo
+                        WHEN 1 THEN cd_movimento
+                        ELSE 0
+                  END                                      AS CD_MOVIMENTO
+                  ,EXTRACT(DAY FROM a.dt_vencimento)       AS VENCIMENTO
                   ,b.cd_conta                              AS CD_CONTA
                   ,b.nm_conta                              AS CONTA
                   ,b.cd_tipo                               AS TIPO_CONTA
@@ -112,10 +117,9 @@ BEGIN
             INNER JOIN tb_contas b ON a.cd_conta = b.cd_conta
             INNER JOIN tb_categorias e ON e.cd_categoria = a.cd_categoria
             WHERE a.cd_competencia = :cd_competencia
-            GROUP BY vencimento,cd_conta,conta
-            ,tipo_conta
-            ,categoria
-            INTO :vencimento, :cd_conta, :conta ,:tipo_conta, :valor, :categoria
+            GROUP BY cd_movimento,vencimento,cd_conta,conta,tipo_conta,categoria
+            ORDER BY vencimento
+            INTO :cd_movimento,:vencimento, :cd_conta, :conta ,:tipo_conta, :valor, :categoria
       DO
       BEGIN
             saldo = COALESCE(saldo,:saldo_inicial) + valor;
