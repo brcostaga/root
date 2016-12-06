@@ -15,7 +15,14 @@
 				</tr>				
 			</thead>
 			<tbody>
-				<tr ng-repeat='row in resumoMensal'>					
+				<tr 
+					ng-repeat='row in resumoMensal' 
+					ng-class="
+						{
+							'customNegativeRow':row.VALOR < 0
+							,'customPositiveRow': row.VALOR >=0
+						}
+					">									
 					<td class='customInteger' ng-bind="row.VENCIMENTO"'></td>
 					<td class=''>{{row.CONTA}}</td>
 					<td class='customColumn'>{{row.CATEGORIA}}</td>
@@ -35,12 +42,19 @@
 					</td>
 					<td class='conta'><a href="#/contaDetalhe/{{row.CD_CONTA +'/'+ cd_competencia}}">
 						<div ng-show='!row.CATEGORIA'>
-							Detalhe
+							<button
+								class='btn-success btn-xs' 								
+							>
+								<div class="ui-pg-div">
+									<span class="ui-icon ace-icon fa fa-eye white"></span>							
+								</div>
+							</button>
 						</div>
 					</td>
 					<td>					
 						<button 
 							class='btn-primary btn-xs'
+							ng-show='row.CATEGORIA'
 							ng-click="changeForm(row.CD_MOVIMENTO,row.CD_CATEGORIA,row.CD_CONTA, row.VALOR, row.DT_VENCIMENTO, cd_competencia)"
 						>
 							<div class='ui-pg-div'>							
@@ -52,6 +66,7 @@
 					<td>
 						<button
 							class='btn-danger btn-xs' 
+							ng-show='row.CATEGORIA'
 							ng-click="deleteMovimento(row.CD_MOVIMENTO)"						
 						>
 						<div 

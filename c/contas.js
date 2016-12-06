@@ -1,14 +1,11 @@
-angular.module('orcamentoApp').controller('contas', function($scope, $http){
+angular.module('orcamentoApp').controller('contas', function($scope, $http, contasAPI){
 	$scope.cd_conta;
 	$scope.nm_conta;	
 	$scope.cd_tipo;  		
-	function getContas(){		
-		$http({
-			url: "http://localhost/orcamento/m/crud/contas/contas.php"			
-			,method: "GET"			
-		}).success(function(data){
-			$scope.contas = data;
-		});	
+	function getContas(){
+		contasAPI.getContas().success(function(data){
+				$scope.contas = data;				
+		});
 	};
 	getContas();
 

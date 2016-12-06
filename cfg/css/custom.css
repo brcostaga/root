@@ -7,6 +7,8 @@
 }
 .customInteger{	text-align: center;}
 .customFloat{text-align: right;}
-.customNegative{color: red;}
-.customPositive{color: blue;}
+.customNegative{color: #db536a;}
+.customPositive{color: #2889ff;}
 .customColumn{width: auto;}
+.customNegativeRow{background-color: #fdf3f4}
+.customPositiveRow{background-color: #f1fdff}
