@@ -4,7 +4,7 @@ angular.module('orcamentoApp').controller('contas', function($scope, $http, cont
 	$scope.cd_tipo;  		
 	function getContas(){
 		contasAPI.getContas().success(function(data){
-				$scope.contas = data;				
+			$scope.contas = data;				
 		});
 	};
 	getContas();

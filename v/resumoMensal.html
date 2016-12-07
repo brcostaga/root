@@ -111,9 +111,21 @@
 				<form >					
 					<fieldset>
 						<label>Categoria</label>
-						<input type="number" name="cd_categoria" ng-model="cd_categoria" placeholder='Categoria' required><br><br>
+						<select 
+							ng-model="cd_categoria"
+							ng-init="cd_categoria = cd_categoria"
+							ng-options="+categoria.CD_CATEGORIA as categoria.NM_CATEGORIAS for categoria in categorias"
+						>
+							<option value='{{cd_categoria}}' selected>{{cd_categoria}} </option>
+						</select><br><br>
 						<label>Conta</label>
-						<input type="number" name="cd_conta" ng-model="cd_conta" placeholder='Conta' required><br><br>
+						<select 
+							ng-model="cd_conta"
+							ng-init="cd_conta = cd_conta"
+							ng-options="+conta.CD_CONTA as conta.NM_CONTA for conta in contas"
+						>
+							<option value='{{cd_conta}}' selected>{{cd_conta}}</option>
+						</select><br><br>
 						<label>Valor</label>
 						<input type="number" step="0.01" name="vl_movimento" ng-model="vl_movimento" placeholder='Valor' required><br><br>						
 						<label>Vencimento</label>
@@ -149,7 +161,8 @@
 			</div>
 		</div>
 	</div> <!-- A L T E R A R-->
-	<div class="widget-box"  ng-show='!post'><!-- I N S E R I R-->
+	<div class="widget-box"  ng-show='!post'>
+		<!-- I N S E R I R-->
 		<div class="widget-header">
 			<h4 class="widget-title">Novo Movimento</h4>
 		</div>
@@ -157,8 +170,18 @@
 			<div class="widget-main no-padding">
 				<form>					
 					<fieldset>
-						<input type="number" name="cd_categoria" ng-model="cd_categoria" placeholder='Categoria' required><br><br>
-						<input type="number" name="cd_conta" ng-model="cd_conta" placeholder='Conta' required><br><br>
+						<select 
+							ng-model="cd_categoria"
+							ng-options="+categoria.CD_CATEGORIA as categoria.NM_CATEGORIAS for categoria in categorias track by categoria.CD_CATEGORIA"
+						>
+							<option value='' disabled selected>Selecione uma Categoria </option>
+						</select><br><br>
+						<select 
+							ng-model="cd_conta"
+							ng-options="+conta.CD_CONTA as conta.NM_CONTA for conta in contas track by conta.CD_CONTA"
+						>
+							<option value='' disabled selected>Selecione uma Conta </option>
+						</select><br><br>
 						<input type="number" step="0.01" name="vl_movimento" ng-model="vl_movimento" placeholder='Valor' required><br><br>
 						<input type="date" name="dt_movimento" ng-model="dt_movimento" placeholder='Data do Movimento' required><br><br>
 						<input type="date" name="dt_vencimento" ng-model="dt_vencimento" placeholder='Data do Vencimento' required><br><br>
@@ -169,10 +192,10 @@
 
 						<!--						
 						<select 
-							ng-model="cd_tipo"
-							ng-options="+tipo.CD as tipo.DS for tipo in tipos track by tipo.CD"
+							ng-model="cd_conta"
+							ng-options="+conta.cd_conta as conta.nm_conta for conta in contas track by conta.cd_conta"
 						>
-							<option value='' disabled selected>Selecione um Tipo de Conta </option>
+							<option value='' disabled selected>Selecione uma Conta </option>
 						</select>							
 						-->
 					</fieldset>

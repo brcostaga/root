@@ -1,12 +1,9 @@
-angular.module('orcamentoApp').controller('categorias', function($scope, $http){
+angular.module('orcamentoApp').controller('categorias', function($scope, $http, categoriasAPI){
 	$scope.cd_categoria;
 	$scope.nm_categorias;	
 	$scope.cd_categoria_pai;  		
 	function getCategorias(){		
-		$http({
-			url: "http://localhost/orcamento/m/crud/categorias/categorias.php"			
-			,method: "GET"			
-		}).success(function(data){
+		categoriasAPI.getCategorias().success(function(data){
 			$scope.categorias = data;
 		});	
 	};

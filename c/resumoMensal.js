@@ -1,4 +1,4 @@
-angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http){	
+angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http, contasAPI, categoriasAPI){	
 	$scope.cd_categoria;
 	$scope.cd_conta;
 	$scope.vl_movimento;
@@ -8,6 +8,20 @@ angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http
 	$scope.ds_historico;
 	$scope.cd_parcela;
 	$scope.qt_parcelas;	
+
+	function getContas(){
+		contasAPI.getContas().success(function(data){
+			$scope.contas = data;				
+		});
+	};
+	getContas();
+
+	function getCategorias(){		
+		categoriasAPI.getCategorias().success(function(data){
+			$scope.categorias = data;
+		});	
+	};
+	getCategorias();
 
 	function getCompetenciasJson (){
 		$http.get("http://localhost/orcamento/m/competencias.php").success(function(data){						
