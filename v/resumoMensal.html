@@ -1,6 +1,6 @@
 <div class='container customContainer'>
 	<div> 		
-
+		
 		<table class='table table-hover table-bordered table-condensed'>
 			<thead>
 				<tr>					
@@ -111,25 +111,27 @@
 				<form >					
 					<fieldset>
 						<label>Categoria</label>
-						<select 
+						<select
+							class='form-control' 
 							ng-model="cd_categoria"
 							ng-init="cd_categoria = cd_categoria"
 							ng-options="+categoria.CD_CATEGORIA as categoria.NM_CATEGORIAS for categoria in categorias"
 						>
 							<option value='{{cd_categoria}}' selected>{{cd_categoria}} </option>
-						</select><br><br>
+						</select><br>
 						<label>Conta</label>
-						<select 
+						<select
+							class='form-control'  
 							ng-model="cd_conta"
 							ng-init="cd_conta = cd_conta"
 							ng-options="+conta.CD_CONTA as conta.NM_CONTA for conta in contas"
 						>
 							<option value='{{cd_conta}}' selected>{{cd_conta}}</option>
-						</select><br><br>
+						</select><br>
 						<label>Valor</label>
-						<input type="number" step="0.01" name="vl_movimento" ng-model="vl_movimento" placeholder='Valor' required><br><br>						
+						<input class='form-control'  type="number" step="0.01" name="vl_movimento" ng-model="vl_movimento" placeholder='Valor' required><br>
 						<label>Vencimento</label>
-						<input type="date" name="dt_vencimento" ng-model="dt_vencimento" placeholder='Data do Vencimento' required><br><br>												
+						<input class='form-control'  type="date" name="dt_vencimento" ng-model="dt_vencimento" placeholder='Data do Vencimento' required><br>				
 						<!--
 						<select 
 							ng-model="cd_tipo"
@@ -170,25 +172,29 @@
 			<div class="widget-main no-padding">
 				<form>					
 					<fieldset>
+						
 						<select 
+							class='form-control'
 							ng-model="cd_categoria"
 							ng-options="+categoria.CD_CATEGORIA as categoria.NM_CATEGORIAS for categoria in categorias track by categoria.CD_CATEGORIA"
 						>
 							<option value='' disabled selected>Selecione uma Categoria </option>
-						</select><br><br>
+						</select><br>
+						
 						<select 
+							class='form-control'
 							ng-model="cd_conta"
 							ng-options="+conta.CD_CONTA as conta.NM_CONTA for conta in contas track by conta.CD_CONTA"
 						>
 							<option value='' disabled selected>Selecione uma Conta </option>
-						</select><br><br>
-						<input type="number" step="0.01" name="vl_movimento" ng-model="vl_movimento" placeholder='Valor' required><br><br>
-						<input type="date" name="dt_movimento" ng-model="dt_movimento" placeholder='Data do Movimento' required><br><br>
-						<input type="date" name="dt_vencimento" ng-model="dt_vencimento" placeholder='Data do Vencimento' required><br><br>
-						<input type="text" name="cd_competencia" ng-model="cd_competencia" placeholder='Competência' required><br><br>
-						<input type="text" name="ds_historico" ng-model="ds_historico" placeholder='Histórico' required><br><br>
-						<input type="number" name="cd_parcela" ng-model="cd_parcela" placeholder='Parcela' required><br><br>
-						<input type="number" name="qt_parcelas" ng-model="qt_parcelas" placeholder='Total de Parcelas' required><br><br>
+						</select><br>
+						<input class='form-control' type="number" step="0.01" name="vl_movimento" ng-model="vl_movimento" placeholder='Valor' required><br>
+						<input class='form-control' type="date" name="dt_movimento" ng-model="dt_movimento" placeholder='Data do Movimento' required><br>
+						<input class='form-control' type="date" name="dt_vencimento" ng-model="dt_vencimento" placeholder='Data do Vencimento' required><br>
+						<input class='form-control' type="text" name="cd_competencia" ng-model="cd_competencia" placeholder='Competência' required><br>
+						<input class='form-control' type="text" name="ds_historico" ng-model="ds_historico" placeholder='Histórico' required><br>
+						<input class='form-control' type="number" name="cd_parcela" ng-model="cd_parcela" placeholder='Parcela' required><br>
+						<input class='form-control' type="number" name="qt_parcelas" ng-model="qt_parcelas" placeholder='Total de Parcelas' required><br>
 
 						<!--						
 						<select 
@@ -214,4 +220,7 @@
 			</div>
 		</div>
 	</div> <!-- I N S E R I R-->
+
+
+	
 </div>
