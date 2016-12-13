@@ -4,7 +4,7 @@ angular.module('orcamentoApp').config(function($routeProvider){
 		,controller: 'resumoMensal'
 	});
 	$routeProvider.when('/contas',{
-		templateUrl: '/orcamento/v/contas.html'
+		templateUrl: '/orcamento/contas/contas.html'
 		,controller: 'contas'
 	});
 	$routeProvider.when('/categorias',{

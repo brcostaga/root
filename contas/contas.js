@@ -18,11 +18,12 @@ angular.module('orcamentoApp').controller('contas', function($scope, $http, cont
 	};
 	$scope.putContas = function(){
 		$http({
-			url: "http://localhost/orcamento/m/crud/contas/putContas.php"			
+			url: "http://localhost/orcamento/contas/contas.php"			
 			,method: "GET"
 			,params: {
 				nm_conta: $scope.nm_conta
 				,cd_tipo: $scope.cd_tipo
+				,crud: "c"
 			}
 		}).success(function(data){
 			$scope.cd_conta = undefined;
@@ -34,10 +35,11 @@ angular.module('orcamentoApp').controller('contas', function($scope, $http, cont
 
 	$scope.deleteContas = function(cd_conta){
 		$http({
-			url: "http://localhost/orcamento/m/crud/contas/deleteContas.php"			
+			url: "http://localhost/orcamento/contas/contas.php"			
 			,method: "GET"
 			,params: {
-				cd_conta: cd_conta				
+				cd_conta: cd_conta
+				,crud: "d"
 			}
 		}).success(function(data){
 			$scope.post = false;
@@ -51,24 +53,26 @@ angular.module('orcamentoApp').controller('contas', function($scope, $http, cont
 		$scope.post = true;
 		$scope.cd_conta = Number(cd_conta);
 		$scope.nm_conta = nm_conta;	
-		$scope.cd_tipo = Number(cd_tipo);
+		$scope.cd_tipo = Number(cd_tipo);		
 	}
 
-	$scope.postContas = function(cd_conta,nm_conta,cd_tipo){		
+	$scope.postContas = function(cd_conta,nm_conta,cd_tipo){
+		
 		$http({
-			url: "http://localhost/orcamento/m/crud/contas/postContas.php"			
+			url: "http://localhost/orcamento/contas/contas.php"			
 			,method: "GET"
 			,params: {
 				cd_conta: Number(cd_conta)
 				,nm_conta: nm_conta
-				,cd_tipo: Number(cd_tipo)			
+				,cd_tipo: Number(cd_tipo)
+				,crud: "u"		
 			}
 		}).success(function(data){
 			$scope.post = false;
 			$scope.cd_conta = undefined;
 			$scope.nm_conta = undefined;	
 			$scope.cd_tipo = undefined;	
-			getContas();
+			getContas();	
 		});	
 	}
 

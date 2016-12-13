@@ -42,7 +42,7 @@ angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http
 
 	function dateToString(d){
 		var date = new Date(d);
-		date = date.getDate()+'/'+(Number(date.getMonth())+1)+'/'+date.getFullYear();
+		date = date.getDate()+'.'+(Number(date.getMonth())+1)+'.'+date.getFullYear();
 		return date;
 	};
 

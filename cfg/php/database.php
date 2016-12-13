@@ -20,7 +20,7 @@
 			$this->connection->setCharset('utf8');
 		}		
 
-		public function dml($statement){					
+		public function dml($statement){
 			$this->connection->execute($statement);
 			$this->connection->close();
 		}
