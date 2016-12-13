@@ -8,7 +8,7 @@ angular.module('orcamentoApp').config(function($routeProvider){
 		,controller: 'contas'
 	});
 	$routeProvider.when('/categorias',{
-		templateUrl: '/orcamento/v/categorias.html'
+		templateUrl: '/orcamento/categorias/categorias.html'
 		,controller: 'categorias'
 	});
 

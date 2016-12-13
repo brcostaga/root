@@ -1,5 +1,5 @@
 <?php
-	require('../../../cfg/php/database.php');
+	require('../cfg/php/database.php');
 	class categoria{
 		private $cd_categoria;
 		private $nm_categorias;

@@ -19,11 +19,12 @@ angular.module('orcamentoApp').controller('categorias', function($scope, $http, 
 
 	$scope.putCategorias = function(){		
 		$http({
-			url: "http://localhost/orcamento/m/crud/categorias/putCategorias.php"			
+			url: "http://localhost/orcamento/categorias/categorias.php"
 			,method: "GET"
 			,params: {
 				nm_categorias: $scope.nm_categorias
 				,cd_categoria_pai: $scope.cd_categoria_pai
+				,crud: 'c'
 			}
 		}).success(function(data){
 			$scope.cd_categoria = undefined;
@@ -34,10 +35,11 @@ angular.module('orcamentoApp').controller('categorias', function($scope, $http, 
 	}
 	$scope.deleteCategorias = function(cd_categoria){
 		$http({
-			url: "http://localhost/orcamento/m/crud/categorias/deleteCategorias.php"			
+			url: "http://localhost/orcamento/categorias/categorias.php"
 			,method: "GET"
 			,params: {
-				cd_categoria: cd_categoria				
+				cd_categoria: cd_categoria
+				,crud: 'd'			
 			}
 		}).success(function(data){
 			$scope.post = false;
@@ -57,12 +59,13 @@ angular.module('orcamentoApp').controller('categorias', function($scope, $http, 
 
 	$scope.postCategorias = function(cd_categoria,nm_categorias,cd_categoria_pai){		
 		$http({
-			url: "http://localhost/orcamento/m/crud/categorias/postCategorias.php"			
+			url: "http://localhost/orcamento/categorias/categorias.php"
 			,method: "GET"
 			,params: {
 				cd_categoria: Number(cd_categoria)
 				,nm_categorias: nm_categorias
-				,cd_categoria_pai: Number(cd_categoria_pai)			
+				,cd_categoria_pai: Number(cd_categoria_pai)	
+				,crud: 'u'		
 			}
 		}).success(function(data){
 			$scope.post = false;
