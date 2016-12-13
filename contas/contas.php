@@ -10,7 +10,6 @@
 			$this->nm_conta = $p2;
 			$this->cd_tipo = $p3;
 		}
-
 		public function crud($crud){
 			$con = new database;
 			$statement = array(
@@ -38,7 +37,7 @@
 	$cd_conta = null;
 	$nm_conta = null;
 	$cd_tipo = null;
-	
+
 	$crud = $_GET['crud'];
 	switch ($crud) {
 		case 'c':
