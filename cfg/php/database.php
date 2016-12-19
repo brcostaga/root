@@ -17,11 +17,12 @@
 					,$this->dbname
 			);
 			$this->connection->setFetchMode(ADODB_FETCH_ASSOC);
-			$this->connection->setCharset('utf8');
+			$this->connection->setCharset('utf8');			
 		}		
 
-		public function dml($statement){
-			$this->connection->execute($statement);
+		public function dml($statement,$params){			
+			$ps = $this->connection->prepare($statement);
+			$this->connection->execute($ps,$params);
 			$this->connection->close();
 		}
 

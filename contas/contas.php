@@ -5,17 +5,22 @@
 		private $nm_conta;
 		private $cd_tipo;
 
-		public function __construct($p1,$p2,$p3){
-			$this->cd_conta = $p1;
-			$this->nm_conta = $p2;
-			$this->cd_tipo = $p3;
+		public function __construct($cd_conta,$nm_conta,$cd_tipo){
+			$this->cd_conta = $cd_conta;
+			$this->nm_conta = $nm_conta;
+			$this->cd_tipo = $cd_tipo;
 		}
 		public function crud($crud){
 			$con = new database;
+
+			$cd_conta = $this->cd_conta;
+			$nm_conta = $this->nm_conta;
+			$cd_tipo = $this->cd_tipo;
+
 			$statement = array(
-				"c" => "INSERT INTO tb_contas (nm_conta,cd_tipo) VALUES('$this->nm_conta',$this->cd_tipo);"			
-				,"u" => "UPDATE tb_contas SET nm_conta = '$this->nm_conta', cd_tipo = $this->cd_tipo WHERE cd_conta=$this->cd_conta;" 
-				,"d" => "DELETE FROM tb_contas WHERE cd_conta=$this->cd_conta;"
+				"c" => "INSERT INTO tb_contas (nm_conta,cd_tipo) VALUES(?,?)"			
+				,"u" => "UPDATE tb_contas SET nm_conta = ?, cd_tipo = ? WHERE cd_conta=?" 
+				,"d" => "DELETE FROM tb_contas WHERE cd_conta=?"
 				,"r" => "
 					SELECT 
 						a.cd_conta
@@ -27,10 +32,16 @@
 				"
 			);		 	 			
 			switch ($crud) {
-				case 'c': $con->dml($statement["c"]);break;	
+				case 'c':
+					$params = [$nm_conta,$cd_tipo];
+					$con->dml($statement["c"],$params);break;	
 				case 'r': $con->queryToJSON($statement["r"]);break;	
-				case 'u': $con->dml($statement["u"]);break;	
-				case 'd': $con->dml($statement["d"]);break;
+				case 'u': 
+					$params = [$nm_conta,$cd_tipo,$cd_conta];
+					$con->dml($statement["u"],$params);break;	
+				case 'd': 
+					$params = [$cd_conta];
+					$con->dml($statement["d"],$params);break;
 			}
 		}		
 	}
@@ -38,21 +49,11 @@
 	$nm_conta = null;
 	$cd_tipo = null;
 
+	if(isset($_GET['cd_conta']))		$cd_conta 		= $_GET['cd_conta'];	
+	if(isset($_GET['nm_conta']))		$nm_conta 		= $_GET['nm_conta'];
+	if(isset($_GET['cd_tipo']))			$cd_tipo 		= $_GET['cd_tipo'];
+	
 	$crud = $_GET['crud'];
-	switch ($crud) {
-		case 'c':
-			$nm_conta = $_GET['nm_conta'];
-			$cd_tipo = $_GET['cd_tipo'];
-			break;		
-		case 'u':
-			$cd_conta = $_GET['cd_conta'];
-			$nm_conta = $_GET['nm_conta'];
-			$cd_tipo = $_GET['cd_tipo'];
-			break;
-		case 'd':
-			$cd_conta = $_GET['cd_conta'];
-			break;
-	}
 	$conta = new conta($cd_conta,$nm_conta,$cd_tipo);
 	$conta->crud($crud);
 ?>
