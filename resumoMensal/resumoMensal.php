@@ -1,5 +1,5 @@
 <?php
-	require('../../../cfg/php/database.php');
+	require('../cfg/php/database.php');
 	class resumoMensal{
 		private $cd_movimento;
 		private $cd_categoria;
@@ -68,7 +68,7 @@
 					$con->dml($statement["c"],$params);break;	
 				case 'r': $con->queryToJSON($statement["r"]);break;	
 				case 'u': 
-					$params = [$cd_movimento, $cd_categoria, $cd_conta, $vl_movimento,$dt_movimento, $dt_vencimento, $cd_competencia, $cd_recurso, $ds_historico, $cd_parcela, $qt_parcelas];
+					$params = [$cd_categoria, $cd_conta, $vl_movimento, $dt_vencimento, $cd_competencia, $cd_recurso, $dt_movimento, $ds_historico, $cd_parcela, $qt_parcelas, $cd_movimento];
 					$con->dml($statement["u"],$params);break;	
 				case 'd': 
 					$params = [$cd_movimento];

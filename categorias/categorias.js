@@ -39,7 +39,7 @@ angular.module('orcamentoApp').controller('categorias', function($scope, $http, 
 			,method: "GET"
 			,params: {
 				cd_categoria: cd_categoria
-				,crud: 'd'			
+				,crud: 'd'
 			}
 		}).success(function(data){
 			$scope.post = false;

@@ -1,6 +1,6 @@
 angular.module('orcamentoApp').config(function($routeProvider){
 	$routeProvider.when('/resumoMensal',{
-		templateUrl: '/orcamento/v/resumoMensal.html'
+		templateUrl: '/orcamento/resumoMensal/resumoMensal.html'
 		,controller: 'resumoMensal'
 	});
 	$routeProvider.when('/contas',{
