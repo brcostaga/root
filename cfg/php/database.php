@@ -26,7 +26,7 @@
 			$this->connection->close();
 		}
 
-		public function queryToJSON($query){					
+		public function queryToJSON($query){			
 			$result = $this->connection->execute($query);
 			$arr = array();
 			$rs = array();

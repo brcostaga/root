@@ -24,7 +24,13 @@ angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http
 	getCategorias();
 
 	function getCompetenciasJson (){
-		$http.get("http://localhost/orcamento/m/competencias.php").success(function(data){						
+		$http({
+			url: "http://localhost/orcamento/competencias/competencias.php"
+			,method: "GET"
+			,params:{
+				crud: "r"
+			}
+		}).success(function(data){						
 			$scope.competencias = data;
 		});
 	};	

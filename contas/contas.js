@@ -78,11 +78,12 @@ angular.module('orcamentoApp').controller('contas', function($scope, $http, cont
 
 	function getDescritiva (){
 		$http({
-			url: "http://localhost/orcamento/m/descritiva.php"
+			url: "http://localhost/orcamento/descritiva/descritiva.php"
 			,method: "GET"
 			,params:{
 				nm_tabela: "'TB_CONTAS'"
 				,nm_campo: "'CD_TIPO'"
+				,crud: 'r'
 			}
 		}).success(function(data){						
 			$scope.tipos = data;
