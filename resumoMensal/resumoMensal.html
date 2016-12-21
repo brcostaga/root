@@ -40,11 +40,11 @@
 							}">
 						{{row.SALDO | currency: ''}}
 					</td>
-					<td class='conta'><a href="#/contaDetalhe/{{row.CD_CONTA +'/'+ cd_competencia}}">
+					<td class='conta'><a href="#/contaDetalhe/{{row.CD_CONTA +'/'+ cd_competencia+'/'+row.DT_VENCIMENTO}}">
 						<div ng-show='!row.CATEGORIA'>
 							<button
 								class='btn-success btn-xs' 								
-							>
+							>								
 								<div class="ui-pg-div">
 									<span class="ui-icon ace-icon fa fa-eye white"></span>							
 								</div>
@@ -194,16 +194,7 @@
 						<input class='form-control' type="text" name="cd_competencia" ng-model="cd_competencia" placeholder='Competência' required><br>
 						<input class='form-control' type="text" name="ds_historico" ng-model="ds_historico" placeholder='Histórico' required><br>
 						<input class='form-control' type="number" name="cd_parcela" ng-model="cd_parcela" placeholder='Parcela' required><br>
-						<input class='form-control' type="number" name="qt_parcelas" ng-model="qt_parcelas" placeholder='Total de Parcelas' required><br>
-
-						<!--						
-						<select 
-							ng-model="cd_conta"
-							ng-options="+conta.cd_conta as conta.nm_conta for conta in contas track by conta.cd_conta"
-						>
-							<option value='' disabled selected>Selecione uma Conta </option>
-						</select>							
-						-->
+						<input class='form-control' type="number" name="qt_parcelas" ng-model="qt_parcelas" placeholder='Total de Parcelas' required><br>						
 					</fieldset>
 
 					<div class="form-actions center">

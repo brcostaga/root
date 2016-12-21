@@ -1,4 +1,4 @@
-angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http, contasAPI, categoriasAPI){	
+angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http, contasAPI, categoriasAPI, competenciasAPI, dateToStringAPI){	
 	$scope.cd_categoria;
 	$scope.cd_conta;
 	$scope.vl_movimento;
@@ -24,13 +24,7 @@ angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http
 	getCategorias();
 
 	function getCompetenciasJson (){
-		$http({
-			url: "http://localhost/orcamento/competencias/competencias.php"
-			,method: "GET"
-			,params:{
-				crud: "r"
-			}
-		}).success(function(data){						
+		competenciasAPI.getCompetencias().success(function(data){						
 			$scope.competencias = data;
 		});
 	};	
@@ -48,12 +42,6 @@ angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http
 			$scope.resumoMensal = data;
 		});	
 	};	
-
-	function dateToString(d){
-		var date = new Date(d);
-		date = date.getDate()+'.'+(Number(date.getMonth())+1)+'.'+date.getFullYear();
-		return date;
-	};
 
 	$scope.cancel = function(){
 		$scope.getResumoMensalJson($scope.cd_competencia);
@@ -88,7 +76,7 @@ angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http
 				,cd_categoria: cd_categoria
 				,cd_conta: cd_conta
 				,vl_movimento: vl_movimento				
-				,dt_vencimento: dateToString(dt_vencimento)
+				,dt_vencimento: dateToStringAPI.dateToString(dt_vencimento)
 				,cd_competencia: cd_competencia
 				,crud: 'u'
 			}
@@ -129,8 +117,8 @@ angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http
 				cd_categoria: $scope.cd_categoria
 				,cd_conta: $scope.cd_conta
 				,vl_movimento: $scope.vl_movimento
-				,dt_movimento: dateToString($scope.dt_movimento)
-				,dt_vencimento: dateToString($scope.dt_vencimento)
+				,dt_movimento: dateToStringAPI.dateToString($scope.dt_movimento)
+				,dt_vencimento: dateToStringAPI.dateToString($scope.dt_vencimento)
 				,cd_competencia: $scope.cd_competencia
 				,ds_historico: $scope.ds_historico
 				,cd_parcela: $scope.cd_parcela

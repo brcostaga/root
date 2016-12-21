@@ -20,7 +20,9 @@
 			$this->connection->setCharset('utf8');			
 		}		
 
-		public function dml($statement,$params){			
+		public function dml($statement,$params){
+			echo $statement;
+			print_r($params);
 			$ps = $this->connection->prepare($statement);
 			$this->connection->execute($ps,$params);
 			$this->connection->close();
@@ -35,7 +37,7 @@
 			    $arr = array_map('htmlentities',$arr);
 			    array_push($rs,$arr);
 			}		
-			$json = html_entity_decode(json_encode($rs, JSON_UNESCAPED_UNICODE));	
+			$json = html_entity_decode(json_encode($rs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES |  JSON_PRETTY_PRINT));	
 			echo $json;
 			$this->connection->close();
 		}

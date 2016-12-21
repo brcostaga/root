@@ -114,10 +114,14 @@ BEGIN
             ,SUM(a.vl_movimento)                     AS VALOR
             ,CASE b.cd_tipo
                   WHEN 2 THEN ''
+                  WHEN 3 THEN NULL
+                  WHEN 4 THEN NULL
                   ELSE e.nm_categorias
             END                                      AS CATEGORIA
             ,CASE b.cd_tipo
                   WHEN 2 THEN NULL
+                  WHEN 3 THEN NULL
+                  WHEN 4 THEN NULL
                   ELSE e.cd_categoria
             END                                      AS CD_CATEGORIA
       FROM tb_movimentos a

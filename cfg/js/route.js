@@ -12,7 +12,7 @@ angular.module('orcamentoApp').config(function($routeProvider){
 		,controller: 'categorias'
 	});
 
-	$routeProvider.when('/contaDetalhe/:cd_conta/:cd_competencia',{
+	$routeProvider.when('/contaDetalhe/:cd_conta/:cd_competencia/:dt_vencimento',{
 		templateUrl: '/orcamento/contaDetalhe/contaDetalhe.html'
 		,controller: 'contaDetalhe'
 	});

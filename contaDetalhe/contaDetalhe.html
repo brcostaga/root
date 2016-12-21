@@ -1,5 +1,5 @@
 <div class='container customContainer'>
-	<table class='table table-bordered table-striped table-condensed'>
+	<table class='table table-bordered table-condensed table-hover'>
 		<thead>
 			<tr>	
 				<th>Data</th>
@@ -7,10 +7,20 @@
 				<th>Parcela</th>
 				<th>Valor(R$)</th>
 				<th>Categoria</th>
+				<th></th>
+				<th></th>
 			</tr>				
 		</thead>
 		<tbody>
-			<tr ng-repeat='movimentoGrupo in movimentosGrupo'>			
+			<tr 
+				ng-repeat='movimentoGrupo in movimentosGrupo'
+				ng-class="
+					{
+						'customNegativeRow':movimentoGrupo.VALOR < 0
+						,'customPositiveRow': movimentoGrupo.VALOR >=0
+					}
+				"
+			>			
 				<td class=''>{{movimentoGrupo.DATA_MOVIMENTO}}</td>
 				<td class=''>{{movimentoGrupo.HISTORICO}}</td>
 				<td class=''>{{movimentoGrupo.PARCELA}}</td>
@@ -21,7 +31,133 @@
 						,'customPositive': movimentoGrupo.VALOR >=0
 					}">{{movimentoGrupo.VALOR | currency: ''}}</td>
 				<td class=''>{{movimentoGrupo.CATEGORIA}}</td>
+				<td>					
+					<button 
+						class='btn-primary btn-xs'										
+						ng-click="changeForm(movimentoGrupo.CD_MOVIMENTO,movimentoGrupo.DATA_MOVIMENTO,movimentoGrupo.HISTORICO,movimentoGrupo.CD_PARCELA,movimentoGrupo.QT_PARCELAS,movimentoGrupo.VALOR,movimentoGrupo.CD_CATEGORIA)"						
+					>
+						<div class='ui-pg-div'>							
+							<span class="ui-icon ace-icon fa fa-pencil white"></span>
+						</div>
+					</button>					
+				</td>
+				<!-- E X C L U I R-->
+					<td>						
+						<button
+							class='btn-danger btn-xs' 							
+							ng-click="deleteDetalhe(movimentoGrupo.CD_MOVIMENTO)"
+						>
+						<div 
+							class="ui-pg-div"
+						>
+
+							<span class="ui-icon ace-icon fa fa-trash-o white"></span>							
+						</div>
+						</button>
+					</td>							
+					<!-- E X C L U I R-->
 			</tr>	
 		</tbody>		
 	</table>
+</div>
+
+<div class='container customContainer'>	
+	<!-- A L T E R A R-->
+	<div class="widget-box" ng-show='post'>
+		<div class="widget-header">
+			<h4 class="widget-title">Alterar Movimento</h4>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main no-padding">
+				<form >					
+					<fieldset>
+
+						<label>Data</label>
+						<input class='form-control' type="date" name="dt_movimento" ng-model="dt_movimento" placeholder='Data do Movimento' required><br>
+
+						<label>Histórico</label>
+						<input class='form-control' type="text" name="ds_historico" ng-model="ds_historico" placeholder='Histórico' required><br>
+
+						<label>Valor</label>
+						<input class='form-control'  type="number" step="0.01" name="vl_movimento" ng-model="vl_movimento" placeholder='Valor' required><br>
+
+						<label>Parcela</label>
+						<input class='form-control' type="number" name="cd_parcela" ng-model="cd_parcela" placeholder='Parcela' required><br>
+
+						<label>Total de Parcelas</label>
+						<input class='form-control' type="number" name="qt_parcelas" ng-model="qt_parcelas" placeholder='Total de Parcelas' required><br>
+
+						<label>Categoria</label>
+						<select
+							class='form-control' 
+							ng-model="cd_categoria"
+							ng-init="cd_categoria = cd_categoria"
+							ng-options="+categoria.CD_CATEGORIA as categoria.NM_CATEGORIAS for categoria in categorias"
+						>
+							<option value='{{cd_categoria}}' selected>{{cd_categoria}} </option>
+						</select><br>						
+						
+					</fieldset>
+					<div class="form-actions center">
+						<button 
+							type="button" 
+							class="btn btn-sm btn-success"
+							ng-click="postMovimento(cd_movimento,dt_movimento,ds_historico,cd_parcela,qt_parcelas,vl_movimento,cd_categoria)"
+						>
+							Salvar
+							<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+						</button>
+						<button 
+							type="button" 
+							class="btn btn-sm btn-danger"
+							ng-click="cancel()"
+						>
+							Cancelar
+							<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div> <!-- A L T E R A R-->
+
+	<!-- I N S E R I R-->		
+	<div class="widget-box"  ng-show='!post'>		
+		<div class="widget-header">
+			<h4 class="widget-title">Novo Movimento</h4>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main no-padding">
+				<form>					
+					<fieldset>						
+						<select 
+							class='form-control'
+							ng-model="cd_categoria"
+							ng-options="+categoria.CD_CATEGORIA as categoria.NM_CATEGORIAS for categoria in categorias track by categoria.CD_CATEGORIA"
+						>
+							<option value='' disabled selected>Selecione uma Categoria </option>
+						</select><br>						
+						
+						<input class='form-control' type="number" step="0.01" name="vl_movimento" ng-model="vl_movimento" placeholder='Valor' required><br>
+						<input class='form-control' type="date" name="dt_movimento" ng-model="dt_movimento" placeholder='Data do Movimento' required><br>
+						<input class='form-control' type="text" name="ds_historico" ng-model="ds_historico" placeholder='Histórico' required><br>
+						<input class='form-control' type="number" name="cd_parcela" ng-model="cd_parcela" placeholder='Parcela' required><br>
+						<input class='form-control' type="number" name="qt_parcelas" ng-model="qt_parcelas" placeholder='Total de Parcelas' required><br>
+					</fieldset>
+
+					<div class="form-actions center">
+						<button 
+							type="button" 
+							class="btn btn-sm btn-success"
+							ng-click="putDetalhe()"
+						>
+							Cadastrar
+							<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div> 
+	<!-- I N S E R I R-->	
 </div>
