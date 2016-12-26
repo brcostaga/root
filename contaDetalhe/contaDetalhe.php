@@ -86,7 +86,6 @@ ORDER BY a.dt_movimento
 		}
 	}
 
-	//http://localhost/orcamento/contaDetalhe/contaDetalhe.php?cd_categoria=4&cd_parcela=1&crud=c&ds_historico=Sonda&dt_movimento=25.10.2016&dt_vencimento=26.11.2016&qt_parcelas=2&vl_movimento=-100
 
 	$cd_movimento 	= null;
 	$cd_categoria 	= null;

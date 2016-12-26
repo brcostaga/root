@@ -14,7 +14,7 @@ angular.module('orcamentoApp').controller('categorias', function($scope, $http, 
 		$scope.cd_conta = undefined;
 		$scope.nm_conta = undefined;	
 		$scope.cd_tipo = undefined;	
-		getContas();
+		getCategorias();
 	};
 
 	$scope.putCategorias = function(){		
@@ -34,6 +34,7 @@ angular.module('orcamentoApp').controller('categorias', function($scope, $http, 
 		});		
 	}
 	$scope.deleteCategorias = function(cd_categoria){
+		console.log(cd_categoria);
 		$http({
 			url: "http://localhost/orcamento/categorias/categorias.php"
 			,method: "GET"
