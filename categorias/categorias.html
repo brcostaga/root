@@ -1,15 +1,22 @@
 <div class= 'container customContainer'>
 	<table class='table table-bordered table-condensed table-hover'>
 		<thead>
-			<tr>	<th>Código</th>	<th>Descrição</th>	<th>Pai</th>	<th></th>	<th></th>	</tr>
+			<tr>	<th>Código</th>	<th>Descrição</th>	<th>Pai</th>	<th></th> 	<th></th>	<th></th>	</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat='row in categorias'>							
 				<td>{{row.CD_CATEGORIA}}</td>
 				<td>{{row.NM_CATEGORIAS}}</td>
 				<td>{{row.CD_CATEGORIA_PAI}}</td>
+				<td>
+					<button class='btn-success btn-xs'	data-toggle="modal" data-target="#myModal">
+						<div class='ui-pg-div'>							
+							<span class="ui-icon ace-icon fa fa-plus-circle  white"></span>
+						</div>
+					</button>					
+				</td>
 				<td edit-button		ng-click="changeForm(row.CD_CATEGORIA,row.NM_CATEGORIAS,row.CD_CATEGORIA_PAI)">	</td>				
-				<td	delete-button 	ng-click="deleteCategorias(row.CD_CATEGORIA)"></td>		
+				<td	delete-button 	ng-click="delete(row.CD_CATEGORIA)"></td>		
 			</tr>	
 		</tbody>		
 	</table>
@@ -28,26 +35,35 @@
 					<input type="number" name="cd_categoria_pai" ng-model="cd_categoria_pai" placeholder='Categoria Pai' required>
 				</fieldset>
 				<div class="form-actions center">
-					<save-button label='Salvar' ng-click="postCategorias(cd_categoria,nm_categorias,cd_categoria_pai)"></save-button>
-					<cancel-button ng-click="cancel()"></cancel-button>													
+					<save-button label='Salvar' ng-click="update(cd_categoria,nm_categorias,cd_categoria_pai)"></save-button>
+					<cancel-button ng-click="refresh()"></cancel-button>
 				</div>
 			</form>
 		</div>
 	</div>
+</div>
 
-	<div class="widget-box"  ng-show='!post'>
-		<widget-header label="Nova Categoria"></widget-header>
-		<div class="widget-body widget-main no-padding">			
-			<form>					
-				<fieldset>
-					<input type="text" name="nm_categorias" ng-model="nm_categorias" placeholder='Descrição' required><br><br>
-					<input type="number" name="cd_categoria_pai" ng-model="cd_categoria_pai" placeholder='Categoria Pai' required><br><br>
-				</fieldset>
-				<div class="form-actions center">
-					<save-button label='Cadastrar' ng-click="putCategorias()"></save-button>												
-				</div>
-			</form>			
+<!-- http://localhost/documentacao/bootstrap-2.3.x/form-elements.html 	-->
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content customModalContent">
+			<div class="modal-header">        
+				<h4 class="modal-title blue bigger" id="myModalLabel">Nova Categoria</h4>
+			</div>
+			<div class="modal-body" >
+				<form>					
+					<fieldset>
+						<input type="text" 		name="nm_categorias" 	ng-model="nm_categorias" 	placeholder='Descrição' 	required><br><br>
+						<input type="number" 	name="cd_categoria_pai" ng-model="cd_categoria_pai" placeholder='Categoria Pai' required><br><br>
+					</fieldset>			
+				</form>
+			</div>
+			<div class="modal-footer customModalFooter">
+				<save-button 	ng-click="create()"		data-dismiss="modal"	label='Cadastrar' >		</save-button>
+				<cancel-button 	ng-click="refresh()" 	data-dismiss="modal">							</cancel-button>
+			</div>
 		</div>
 	</div>
-
 </div>

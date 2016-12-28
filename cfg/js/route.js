@@ -15,6 +15,6 @@ angular.module('orcamentoApp').config(function($routeProvider){
 	$routeProvider.when('/contaDetalhe/:cd_conta/:cd_competencia/:dt_vencimento',{
 		templateUrl: '/orcamento/contaDetalhe/contaDetalhe.html'
 		,controller: 'contaDetalhe'
-	});
+	});	
 	$routeProvider.otherwise({redirectTo: '/resumoMensal'});
 });

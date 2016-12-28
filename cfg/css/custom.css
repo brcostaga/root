@@ -12,3 +12,5 @@
 .customColumn{width: auto;}
 .customNegativeRow{background-color: #fdf3f4}
 .customPositiveRow{background-color: #f1fdff}
+.customModalContent{width: 250px}
+.customModalFooter{text-align: left}
