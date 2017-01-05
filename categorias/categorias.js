@@ -48,15 +48,13 @@ angular.module('orcamentoApp').controller('categorias', function($scope, $http, 
 		});				
 	};
 
-	$scope.changeForm = function(cd_categoria,nm_categorias,cd_categoria_pai){
-		$scope.post = true;
+	$scope.setScope = function(cd_categoria,nm_categorias,cd_categoria_pai){		
 		$scope.cd_categoria = Number(cd_categoria);
 		$scope.nm_categorias = nm_categorias;	
 		$scope.cd_categoria_pai = Number(cd_categoria_pai);
 	};
 
-	$scope.refresh = function(){
-		$scope.post = false;
+	$scope.refresh = function(){		
 		$scope.cd_categoria = undefined;
 		$scope.nm_categorias = undefined;	
 		$scope.cd_categoria_pai = undefined;			
