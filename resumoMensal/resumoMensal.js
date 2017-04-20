@@ -109,7 +109,7 @@ angular.module('orcamentoApp').controller('resumoMensal', function($scope, $http
 		});						
 	}
 
-	$scope.putMovimento = function(){		
+	$scope.putMovimento = function(){
 		$http({			
 			url: "http://localhost/orcamento/resumoMensal/resumoMensal.php"
 			,method: "GET"

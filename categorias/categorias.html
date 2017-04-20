@@ -4,12 +4,15 @@
 			<tr>	<th>Código</th>	<th>Descrição</th>	<th>Pai</th>	<th></th> 	<th></th>	<th></th>	</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat='row in categorias'>
+			<tr ng-repeat='row in categorias'>							
 				<td>{{row.CD_CATEGORIA}}	</td>
 				<td>{{row.NM_CATEGORIAS}}	</td>
 				<td>{{row.CD_CATEGORIA_PAI}}</td>
 				<td> <create-button modal-id='#create'></create-button>	</td>
-				<td> <edit-button modal-id='#update' ng-click="setScope(row.CD_CATEGORIA,row.NM_CATEGORIAS,row.CD_CATEGORIA_PAI)"></edit-button></td>
+
+				<td ng-click="setScope(row.CD_CATEGORIA,row.NM_CATEGORIAS,row.CD_CATEGORIA_PAI)">
+					<edit-button modal-id='#update'></edit-button>				
+				</td>				
 				<td	delete-button ng-click="delete(row.CD_CATEGORIA)"></td>		
 			</tr>	
 		</tbody>		
@@ -26,7 +29,7 @@
 				<form>					
 					<fieldset>
 						<input type="text" 		name="nm_categorias" 	ng-model="nm_categorias" 	placeholder='Descrição' 	required><br><br>
-						<input type="number" 	name="cd_categoria_pai" ng-model="cd_categoria_pai" placeholder='Categoria Pai' required>
+						<input type="number" 	name="cd_categoria_pai" ng-model="cd_categoria_pai" placeholder='Categoria Pai' required><br><br>
 					</fieldset>			
 				</form>
 			</div>
@@ -50,13 +53,13 @@
 						<label>Descrição</label><br>
 						<input type="text" name="nm_categorias" ng-model="nm_categorias" required><br><br>
 						<label>Pai:</label><br>
-						<input type="number" name="cd_categoria_pai" ng-model="cd_categoria_pai" required>
+						<input type="number" name="cd_categoria_pai" ng-model="cd_categoria_pai" placeholder='Categoria Pai' value="0" required>
 					</fieldset>			
 				</form>
 			</div>
 			<div class="modal-footer customModalFooter">
-				<save-button 	ng-click="update(cd_categoria,nm_categorias,cd_categoria_pai)"		data-dismiss="modal"	label='Salvar' >	</save-button>
-				<cancel-button 	ng-click="refresh()" 	data-dismiss="modal">																	</cancel-button>
+				<save-button 	ng-click="update(cd_categoria,nm_categorias,cd_categoria_pai)"		data-dismiss="modal"	label='Salvar' >		</save-button>
+				<cancel-button 	ng-click="refresh()" 	data-dismiss="modal">							</cancel-button>
 			</div>
 		</div>
 	</div>

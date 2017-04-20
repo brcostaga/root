@@ -61,4 +61,5 @@ angular.module('orcamentoApp').controller('categorias', function($scope, $http, 
 		read();
 	};
 	$scope.refresh();
+
 });
