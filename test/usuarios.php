@@ -29,12 +29,42 @@
 			$crc 					= $this->crc;	
 			$chapa 					= $this->chapa;	
 
-			$statement = array("r" => "SELECT * FROM aac_usuarios WHERE codigo_usuario = ?");		 	 			
+			$statement = array("r" => "SELECT * FROM aac_usuarios WHERE nome = ?");		 	 			
 			switch ($crud){
 				case 'r': 
-					$params = [$codigo_usuario];
+					$params = [$nome];
 					$con->query1ToJSON($statement["r"],$params);break;				
 			}
+		}
+		
+		public function Criptografar($Texto,$Dig){
+			$Codigo = 0;
+			$xCRC   = 0;
+			$xCont  = 0;
+			$Texto  = trim($Texto);
+
+			for($L1 = strlen($Texto); $L1 >= 1; $L1--){
+			  $Codigo = $Codigo + ord($Texto[$L1-1]) * $L1;
+			  $xCont  = $xCont + ord($Texto[$L1-1]);
+			}
+
+			$Nro_Final = ($xCRC + ($Codigo * $xCont));
+			$xCRC = ($xCRC + ($Codigo * $xCont)) & 0xfffff;
+			if($Dig < 5){
+			 $Dig = mt_rand(6,19);
+			}
+			$xCRC = $xCRC * $Dig;
+			$xCRC = $xCRC * 21 + $Dig;
+			return $xCRC;
+		}
+
+		public function ChecarCriptografia($Texto, $CRC){
+			$Texto = trim($Texto);
+			$CRC   = trim($CRC);
+
+			$Dig   = $CRC % 21;
+			$xCRC  = $this->Criptografar($Texto,$Dig);	
+			echo $xCRC;
 		}
 	} 	
 	$codigo_usuario 		= null;
@@ -56,4 +86,5 @@
 	$crud = $_GET['crud'];	
 	$usuario = new usuario($codigo_usuario,$nome,$nome_completo,$senha,$intruso,$crc,$chapa);
 	$usuario->crud($crud);
+	$usuario->ChecarCriptografia("123",$usuario->$senha);
 ?>

@@ -1,21 +1,21 @@
 <?php
 	include 'adodb/adodb.inc.php';	
 	class database{
-/*		
+		
 		private $driver = 'firebird';
 		private $host = '127.0.0.1';
 		private $dbname = 'C:\xampp\firebird\ORCAMENTO.FDB';
 		private $user = 'SYSDBA';
 		private $pass = 'masterkey';
 		private $connection;
-*/
+/*
 		private $driver = 'firebird';
 		private $host = '10.171.0.3';
 		private $dbname = '//databases/SIAP2000_DIARIO.GDB';
 		private $user = 'SYSDBA';
 		private $pass = '';
 		private $connection;
-		
+*/		
 		public function __construct(){
 			$this->connection = adoNewConnection($this->driver);
 			$this->connection->connect(
